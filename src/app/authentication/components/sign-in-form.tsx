@@ -55,7 +55,7 @@ const SignInForm = () => {
           if (ctx.error.code === "USER_NOT_FOUND") {
             toast.error("E-mail não encontrado.");
             return form.setError("email", {
-              message: "E-mail não encontrado.",
+              message: "E-mail não encontrado.", //
             });
           }
           if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
