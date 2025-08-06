@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,15 +17,7 @@ import {
 } from "../ui/sheet";
 
 export const Header = () => {
-  const [isMounted, setIsMounted] = useState(false);
   const { data: session } = authClient.useSession();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null; // impede renderização no SSR
-
   return (
     <header className="flex items-center justify-between p-5">
       <Link href="/">
@@ -46,32 +37,35 @@ export const Header = () => {
             </SheetHeader>
             <div className="px-5">
               {session?.user ? (
-                <div className="flex justify-between space-y-6">
-                  <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarImage
-                        src={session.user.image ?? undefined}
-                      />
-                      <AvatarFallback>
-                        {session.user.name?.split(" ")?.[0]?.[0]}
-                        {session.user.name?.split(" ")?.[1]?.[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-semibold">{session.user.name}</h3>
-                      <span className="text-muted-foreground block text-xs">
-                        {session.user.email}
-                      </span>
+                <>
+                  <div className="flex justify-between space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage
+                          src={session?.user?.image as string | undefined}
+                        />
+                        <AvatarFallback>
+                          {session?.user?.name?.split(" ")?.[0]?.[0]}
+                          {session?.user?.name?.split(" ")?.[1]?.[0]}
+                        </AvatarFallback>
+                      </Avatar>
+
+                      <div>
+                        <h3 className="font-semibold">{session?.user?.name}</h3>
+                        <span className="text-muted-foreground block text-xs">
+                          {session?.user?.email}
+                        </span>
+                      </div>
                     </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => authClient.signOut()}
+                    >
+                      <LogOutIcon />
+                    </Button>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => authClient.signOut()}
-                  >
-                    <LogOutIcon />
-                  </Button>
-                </div>
+                </>
               ) : (
                 <div className="flex items-center justify-between">
                   <h2 className="font-semibold">Olá. Faça seu login!</h2>

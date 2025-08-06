@@ -28,7 +28,7 @@ const Home = async () => {
       <div className="space-y-6">
         <div className="px-5">
           <Image
-            src="/banner-01.svg"
+            src="/banner-01.png"
             alt="Leve uma vida com estilo"
             height={0}
             width={0}
