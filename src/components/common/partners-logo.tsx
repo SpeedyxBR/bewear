@@ -1,15 +1,24 @@
 "use client";
 
 import Image from "next/image";
+import React from "react";
 
-const partners = [
+interface Partner {
+  src: string;
+  alt: string;
+}
+
+const partners: Partner[] = [
   { src: "/nike.png", alt: "Nike" },
   { src: "/adidas.png", alt: "Adidas" },
   { src: "/puma.png", alt: "Puma" },
   { src: "/newbalance.png", alt: "New Balance" },
+  { src: "/converse.png", alt: "Converse" },
+  { src: "/polo.png", alt: "Polo" },
+  { src: "/zara.png", alt: "Zara" },
 ];
 
-export default function PartnerCarousel() {
+export default function PartnerCarousel(): JSX.Element {
   return (
     <section className="my-8 px-5">
       <h2 className="mb-4 text-xl font-semibold">Marcas Parceiras</h2>
@@ -27,7 +36,7 @@ export default function PartnerCarousel() {
             key={idx}
             className="flex-shrink-0 scroll-snap-align-start flex flex-col items-center w-24"
           >
-            <div className="w-24 h-24 rounded-4xl border border-gray-200 p-4 bg-white dark:bg-gray-800 flex items-center justify-center">
+            <div className="w-24 h-24 rounded-3xl border border-gray-200 p-4 bg-white dark:bg-gray-800 flex items-center justify-center">
               <Image
                 src={src}
                 alt={alt}
@@ -45,7 +54,7 @@ export default function PartnerCarousel() {
 
         <style jsx>{`
           div::-webkit-scrollbar {
-            display: none; /* Chrome, Safari e Opera */
+            display: none;
           }
         `}</style>
       </div>
