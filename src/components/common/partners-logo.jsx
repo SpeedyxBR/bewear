@@ -15,7 +15,7 @@ export default function PartnerCarousel() {
       <h2 className="mb-4 text-xl font-semibold">Marcas Parceiras</h2>
 
       <div
-        className="flex gap-6 overflow-x-auto scroll-smooth"
+        className="flex gap-4 overflow-x-auto scroll-smooth"
         style={{
           scrollSnapType: "x mandatory",
           scrollbarWidth: "none", // Firefox

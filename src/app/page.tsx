@@ -5,7 +5,7 @@ import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
-import PartnersLogo from "@/components/common/partners-logo"; // import corrigido
+import PartnersLogo from "@/components/common/partners-logo"; 
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
