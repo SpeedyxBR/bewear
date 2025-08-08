@@ -5,7 +5,6 @@ import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
-import PartnersLogo from "@/components/common/partners-logo"; 
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
@@ -29,7 +28,7 @@ const Home = async () => {
       <div className="space-y-6">
         <div className="px-5">
           <Image
-            src="/banner-01.svg"
+            src="/banner-01.png"
             alt="Leve uma vida com estilo"
             height={0}
             width={0}
@@ -37,8 +36,6 @@ const Home = async () => {
             className="h-auto w-full"
           />
         </div>
-
-        <PartnersLogo /> {/* Componente inserido aqui */}
 
         <ProductList products={products} title="Mais vendidos" />
 
