@@ -8,43 +8,43 @@ import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import {
-  CreateShippingAddressSchema,
-  createShippingAddressSchema,
+    CreateShippingAddressSchema,
+    createShippingAddressSchema,
 } from "./schema";
 
 export const createShippingAddress = async (
-  data: CreateShippingAddressSchema,
+    data: CreateShippingAddressSchema,
 ) => {
-  createShippingAddressSchema.parse(data);
+    createShippingAddressSchema.parse(data);
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
+    if (!session?.user) {
+        throw new Error("Unauthorized");
+    }
 
-  const [shippingAddress] = await db
-    .insert(shippingAddressTable)
-    .values({
-      userId: session.user.id,
-      recipientName: data.fullName,
-      street: data.address,
-      number: data.number,
-      complement: data.complement || null,
-      city: data.city,
-      state: data.state,
-      neighborhood: data.neighborhood,
-      zipCode: data.zipCode,
-      country: "Brasil",
-      phone: data.phone,
-      email: data.email,
-      cpfOrCnpj: data.cpf,
-    })
-    .returning();
+    const [shippingAddress] = await db
+        .insert(shippingAddressTable)
+        .values({
+            userId: session.user.id,
+            recipientName: data.fullName,
+            street: data.address,
+            number: data.number,
+            complement: data.complement || null,
+            city: data.city,
+            state: data.state,
+            neighborhood: data.neighborhood,
+            zipCode: data.zipCode,
+            country: "Brasil",
+            phone: data.phone,
+            email: data.email,
+            cpfOrCnpj: data.cpf,
+        })
+        .returning();
 
-  revalidatePath("/cart/identification");
+    revalidatePath("/cart/identification");
 
-  return shippingAddress;
+    return shippingAddress;
 };

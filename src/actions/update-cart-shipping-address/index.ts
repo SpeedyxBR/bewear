@@ -8,49 +8,49 @@ import { cartTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import {
-  UpdateCartShippingAddressSchema,
-  updateCartShippingAddressSchema,
+    UpdateCartShippingAddressSchema,
+    updateCartShippingAddressSchema,
 } from "./schema";
 
 export const updateCartShippingAddress = async (
-  data: UpdateCartShippingAddressSchema,
+    data: UpdateCartShippingAddressSchema,
 ) => {
-  updateCartShippingAddressSchema.parse(data);
+    updateCartShippingAddressSchema.parse(data);
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
+    if (!session?.user) {
+        throw new Error("Unauthorized");
+    }
 
-  const shippingAddress = await db.query.shippingAddressTable.findFirst({
-    where: (shippingAddress, { eq, and }) =>
-      and(
-        eq(shippingAddress.id, data.shippingAddressId),
-        eq(shippingAddress.userId, session.user.id),
-      ),
-  });
+    const shippingAddress = await db.query.shippingAddressTable.findFirst({
+        where: (shippingAddress, { eq, and }) =>
+            and(
+                eq(shippingAddress.id, data.shippingAddressId),
+                eq(shippingAddress.userId, session.user.id),
+            ),
+    });
 
-  if (!shippingAddress) {
-    throw new Error("Shipping address not found or unauthorized");
-  }
+    if (!shippingAddress) {
+        throw new Error("Shipping address not found or unauthorized");
+    }
 
-  const cart = await db.query.cartTable.findFirst({
-    where: (cart, { eq }) => eq(cart.userId, session.user.id),
-  });
+    const cart = await db.query.cartTable.findFirst({
+        where: (cart, { eq }) => eq(cart.userId, session.user.id),
+    });
 
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
+    if (!cart) {
+        throw new Error("Cart not found");
+    }
 
-  await db
-    .update(cartTable)
-    .set({
-      shippingAddressId: data.shippingAddressId,
-    })
-    .where(eq(cartTable.id, cart.id));
+    await db
+        .update(cartTable)
+        .set({
+            shippingAddressId: data.shippingAddressId,
+        })
+        .where(eq(cartTable.id, cart.id));
 
-  return { success: true };
+    return { success: true };
 };

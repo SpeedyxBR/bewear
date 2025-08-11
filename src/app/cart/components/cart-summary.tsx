@@ -67,10 +67,15 @@ const CartSummary = ({
                 </p>
               </div>
             </div>
-            <div className="flex flex-col items-end justify-center gap-2">
-              <p className="text-sm font-bold">
-                {formatCentsToBRL(product.priceInCents)}
-              </p>
+            <div>
+              <div className="flex flex-col items-end justify-center gap-2">
+                <p className="text-muted-foreground text-xs">
+                  {product.quantity}x
+                </p>
+                <p className="text-sm font-bold">
+                  {formatCentsToBRL(product.priceInCents)}
+                </p>
+              </div>
             </div>
           </div>
         ))}

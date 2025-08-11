@@ -1,5 +1,4 @@
 "use client";
-
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,10 +18,11 @@ import { Cart } from "./cart";
 
 export const Header = () => {
   const { data: session } = authClient.useSession();
+
   return (
     <header className="flex items-center justify-between p-5">
       <Link href="/">
-        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/logo.svg" alt="logo_store" width={100} height={26.14} />
       </Link>
 
       <div className="flex items-center gap-3">
@@ -46,8 +46,8 @@ export const Header = () => {
                           src={session?.user?.image as string | undefined}
                         />
                         <AvatarFallback>
-                          {session?.user?.name?.split(" ")?.[0]?.[0]}
-                          {session?.user?.name?.split(" ")?.[1]?.[0]}
+                          {session?.user?.name?.split(" ")[0]?.[0]}
+                          {session?.user?.name?.split(" ")[1]?.[0]}
                         </AvatarFallback>
                       </Avatar>
 
@@ -69,7 +69,7 @@ export const Header = () => {
                 </>
               ) : (
                 <div className="flex items-center justify-between">
-                  <h2 className="font-semibold">Olá. Faça seu login!</h2>
+                  <h2 className="font-semibold">Olá. Faça o seu login!</h2>
                   <Button size="icon" asChild variant="outline">
                     <Link href="/authentication">
                       <LogInIcon />

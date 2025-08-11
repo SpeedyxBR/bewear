@@ -5,11 +5,11 @@ import { getCart } from "@/actions/get-cart";
 export const getUseCartQueryKey = () => ["cart"] as const;
 
 export const useCart = (params?: {
-  initialData?: Awaited<ReturnType<typeof getCart>>;
+    initialData?: Awaited<ReturnType<typeof getCart>>;
 }) => {
-  return useQuery({
-    queryKey: getUseCartQueryKey(),
-    queryFn: () => getCart(),
-    initialData: params?.initialData,
-  });
+    return useQuery({
+        queryKey: getUseCartQueryKey(),
+        queryFn: () => getCart(),
+        initialData: params?.initialData,
+    });
 };

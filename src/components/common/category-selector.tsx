@@ -7,7 +7,6 @@ import { Button } from "../ui/button";
 interface CategorySelectorProps {
   categories: (typeof categoryTable.$inferSelect)[];
 }
-
 const CategorySelector = ({ categories }: CategorySelectorProps) => {
   return (
     <div className="rounded-3xl bg-[#F4EFFF] p-6">

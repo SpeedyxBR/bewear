@@ -31,7 +31,6 @@ export const Cart = () => {
         <SheetHeader>
           <SheetTitle>Carrinho</SheetTitle>
         </SheetHeader>
-
         <div className="flex h-full flex-col px-5 pb-5">
           <div className="flex h-full max-h-full flex-col overflow-hidden">
             <ScrollArea className="h-full">
@@ -87,5 +86,3 @@ export const Cart = () => {
     </Sheet>
   );
 };
-
-// SERVER ACTION

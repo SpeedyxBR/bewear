@@ -14,6 +14,7 @@ interface ProductItemProps {
 
 const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
   const firstVariant = product.variants[0];
+
   return (
     <Link
       href={`/product-variant/${firstVariant.slug}`}

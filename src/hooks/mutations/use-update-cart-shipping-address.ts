@@ -6,20 +6,20 @@ import { UpdateCartShippingAddressSchema } from "@/actions/update-cart-shipping-
 import { getUseCartQueryKey } from "../queries/use-cart";
 
 export const getUpdateCartShippingAddressMutationKey = () => [
-  "update-cart-shipping-address",
+    "update-cart-shipping-address",
 ];
 
 export const useUpdateCartShippingAddress = () => {
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationKey: getUpdateCartShippingAddressMutationKey(),
-    mutationFn: (data: UpdateCartShippingAddressSchema) =>
-      updateCartShippingAddress(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: getUseCartQueryKey(),
-      });
-    },
-  });
+    return useMutation({
+        mutationKey: getUpdateCartShippingAddressMutationKey(),
+        mutationFn: (data: UpdateCartShippingAddressSchema) =>
+            updateCartShippingAddress(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getUseCartQueryKey(),
+            });
+        },
+    });
 };
