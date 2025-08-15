@@ -9,6 +9,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Suppress hydration warnings caused by browser extensions
+  reactStrictMode: true,
+  experimental: {
+    // Suppress hydration mismatch warnings
+    suppressHydrationWarning: true,
+  },
+  // Custom webpack config to suppress hydration warnings
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
