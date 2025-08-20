@@ -9,6 +9,9 @@ import { ProductList } from "@/components/common/product-list";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
+// Força a página a ser dinâmica para evitar queries durante build
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const products = await db.query.productTable.findMany({
     with: {
@@ -44,7 +47,6 @@ export default async function Home() {
           <div className="lg:col-span-3">
             <PartnersList />
           </div>
-
         </div>
         <ProductList products={products} title="Mais vendidos" />
         <div className="px-5">
