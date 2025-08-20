@@ -7,7 +7,7 @@ import { Header } from "@/components/common/header";
 import { PartnersList } from "@/components/common/partners-list";
 import { ProductList } from "@/components/common/product-list";
 import { db } from "@/db";
-import { productTable } from "@/db/schema";
+import { categoryTable, productTable } from "@/db/schema";
 
 // Força a página a ser dinâmica para evitar queries durante build
 export const dynamic = "force-dynamic";
