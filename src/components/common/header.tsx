@@ -45,16 +45,27 @@ export const Header = () => {
 
   return (
     <header className="flex items-center justify-between p-5">
-      <Link href="/">
+      <Link href="/" className="flex items-center">
+        {/* Logo principal - texto BEWEAR */}
+        <div className="text-2xl font-bold text-purple-600">
+          BEWEAR
+        </div>
+        
+        {/* Logo de imagem como fallback opcional */}
         <img
           src="/logo.svg"
           alt="BEWEAR Logo"
           width={100}
           height={26.14}
-          className="h-auto w-auto"
+          className="h-auto w-auto ml-2 hidden"
           onError={(e) => {
-            // Fallback para PNG se SVG falhar
-            e.currentTarget.src = "/logo.png";
+            console.log("Logo SVG falhou");
+            e.currentTarget.style.display = "none";
+          }}
+          onLoad={(e) => {
+            console.log("Logo SVG carregado, escondendo texto");
+            e.currentTarget.previousElementSibling?.classList.add("hidden");
+            e.currentTarget.classList.remove("hidden");
           }}
         />
       </Link>
