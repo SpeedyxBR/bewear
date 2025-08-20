@@ -41,16 +41,22 @@ export const Header = () => {
   // Debug para verificar se a sessão está funcionando
   console.log("Session data:", session);
 
+  // Debug para verificar se o logo está carregando
+  console.log("Logo path:", "/logo.svg");
+
   return (
     <header className="flex items-center justify-between p-5">
       <Link href="/">
-        <Image
+        <img
           src="/logo.svg"
           alt="BEWEAR Logo"
           width={100}
           height={26.14}
-          priority
-          unoptimized
+          className="h-auto w-auto"
+          onError={(e) => {
+            // Fallback para PNG se SVG falhar
+            e.currentTarget.src = "/logo.png";
+          }}
         />
       </Link>
 
