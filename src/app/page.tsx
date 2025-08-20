@@ -13,20 +13,36 @@ import { productTable } from "@/db/schema";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const products = await db.query.productTable.findMany({
-    with: {
-      variants: true,
-    },
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let products: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let categories: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let recentlyProducts: any[] = [];
 
-  const categories = await db.query.categoryTable.findMany({});
+  try {
+    // Tenta buscar dados do banco, mas não falha se não conseguir
+    products = await db.query.productTable.findMany({
+      with: {
+        variants: true,
+      },
+    });
 
-  const recentlyProducts = await db.query.productTable.findMany({
-    orderBy: [desc(productTable.createdAt)],
-    with: {
-      variants: true,
-    },
-  });
+    categories = await db.query.categoryTable.findMany({});
+
+    recentlyProducts = await db.query.productTable.findMany({
+      orderBy: [desc(productTable.createdAt)],
+      with: {
+        variants: true,
+      },
+    });
+  } catch (error) {
+    console.error("Erro ao carregar dados do banco:", error);
+    // Se falhar, usa arrays vazios
+    products = [];
+    categories = [];
+    recentlyProducts = [];
+  }
 
   return (
     <>
@@ -48,10 +64,17 @@ export default async function Home() {
             <PartnersList />
           </div>
         </div>
-        <ProductList products={products} title="Mais vendidos" />
-        <div className="px-5">
-          <CategorySelector categories={categories} />
-        </div>
+
+        {products.length > 0 && (
+          <ProductList products={products} title="Mais vendidos" />
+        )}
+
+        {categories.length > 0 && (
+          <div className="px-5">
+            <CategorySelector categories={categories} />
+          </div>
+        )}
+
         <div className="px-5">
           <Image
             src="/banner-02.png"
@@ -62,7 +85,11 @@ export default async function Home() {
             className="h-auto w-full"
           />
         </div>
-        <ProductList products={recentlyProducts} title="Novidades" />
+
+        {recentlyProducts.length > 0 && (
+          <ProductList products={recentlyProducts} title="Novidades" />
+        )}
+
         <Footer />
       </div>
     </>
