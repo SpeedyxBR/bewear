@@ -96,16 +96,8 @@ export const Cart = () => {
                     Adicione produtos para começar suas compras
                   </p>
                 </div>
-                <Button
-                  variant="outline"
-                  className="mt-4"
-                  onClick={() =>
-                    document
-                      .querySelector("[data-radix-sheet-trigger]")
-                      ?.dispatchEvent(new Event("click", { bubbles: true }))
-                  }
-                >
-                  Continuar comprando
+                <Button variant="outline" className="mt-4" asChild>
+                  <Link href="/">Continuar comprando</Link>
                 </Button>
               </div>
             )}
