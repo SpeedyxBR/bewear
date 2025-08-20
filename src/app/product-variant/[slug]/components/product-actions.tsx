@@ -1,9 +1,7 @@
 "use client";
-
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
-import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { authClient } from "@/lib/auth-client";
 
 import AddToCartButton from "./add-to-cart-button";
 
