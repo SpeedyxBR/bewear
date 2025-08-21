@@ -123,13 +123,13 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
               <MenuIcon />
             </Button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent className="h-full">
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
 
-            <ScrollArea className="h-full">
-              <div className="flex flex-col h-full">
+            <ScrollArea className="h-full w-full">
+              <div className="flex flex-col h-full min-h-0">
                 {/* Seção de Usuário */}
                 <div className="py-4">
                   {session?.user ? (

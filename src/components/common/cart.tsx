@@ -28,6 +28,7 @@ export const Cart = () => {
         <Button
           variant="link"
           className="text-black [&_svg:not([class*='size-'])]:size-auto"
+          onClick={() => (window.location.href = "/cart")}
         >
           <ShoppingBagIcon />
         </Button>
