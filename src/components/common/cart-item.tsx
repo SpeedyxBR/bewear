@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { formatCentsToBRL } from "@/helpers/money";
 import { useDecreaseCartProduct } from "@/hooks/mutations/use-decrease-cart-product";
 import { useIncreaseCartProduct } from "@/hooks/mutations/use-increase-cart-product";
-import { useRemoveProductFromCart } from "@/hooks/mutations/use-remove-cart-product";
+import { useRemoveProductFromCart } from "@/hooks/mutations/use-remove-product-from-cart";
 
 import { Button } from "../ui/button";
 
@@ -32,28 +32,27 @@ const CartItem = ({
   const decreaseCartProductQuantityMutation = useDecreaseCartProduct(id);
   const increaseCartProductQuantityMutation =
     useIncreaseCartProduct(productVariantId);
-
   const handleDeleteClick = () => {
     removeProductFromCartMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Produto removido do carrinho.");
+        toast.success("Produto removido do carrinho.", { duration: 1000 });
       },
       onError: () => {
-        toast.error("Erro ao remover produto do carrinho.");
+        toast.error("Erro ao remover produto do carrinho., { duration: 1000 }");
       },
     });
   };
   const handleDecreaseQuantityClick = () => {
     decreaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Quantidade do produto diminuida.");
+        toast.success("Quantidade do produto diminuida.", { duration: 1000 });
       },
     });
   };
   const handleIncreaseQuantityClick = () => {
     increaseCartProductQuantityMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Quantidade do produto aumentada.");
+        toast.success("Quantidade do produto aumentada.", { duration: 1000 });
       },
     });
   };
@@ -76,9 +75,11 @@ const CartItem = ({
             <Button
               className="h-4 w-4"
               variant="ghost"
-              onClick={handleDecreaseQuantityClick}
+              onClick={
+                quantity < 2 ? handleDeleteClick : handleDecreaseQuantityClick
+              }
             >
-              <MinusIcon />
+              {quantity < 2 ? <TrashIcon /> : <MinusIcon />}
             </Button>
             <p className="text-xs font-medium">{quantity}</p>
             <Button
@@ -92,9 +93,6 @@ const CartItem = ({
         </div>
       </div>
       <div className="flex flex-col items-end justify-center gap-2">
-        <Button variant="outline" size="icon" onClick={handleDeleteClick}>
-          <TrashIcon />
-        </Button>
         <p className="text-sm font-bold">
           {formatCentsToBRL(productVariantPriceInCents)}
         </p>

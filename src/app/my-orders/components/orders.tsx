@@ -1,5 +1,7 @@
 "use client";
-import CartSummary from "@/app/cart/components/cart-summary";
+
+import Image from "next/image";
+
 import {
   Accordion,
   AccordionContent,
@@ -8,9 +10,11 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { orderTable } from "@/db/schema";
+import { formatCentsToBRL } from "@/helpers/money";
 
-interface OrderProps {
+interface OrdersProps {
   orders: Array<{
     id: string;
     totalPriceInCents: number;
@@ -26,7 +30,8 @@ interface OrderProps {
     }>;
   }>;
 }
-const Orders = ({ orders }: OrderProps) => {
+
+const Orders = ({ orders }: OrdersProps) => {
   return (
     <div className="space-y-5">
       {orders.map((order) => (
@@ -38,37 +43,76 @@ const Orders = ({ orders }: OrderProps) => {
                   <div className="flex flex-col gap-1">
                     {order.status === "paid" && <Badge>Pago</Badge>}
                     {order.status === "pending" && (
-                      <Badge variant="outline">Pagamento Pendente</Badge>
+                      <Badge variant="outline">Pagamento pendente</Badge>
                     )}
                     {order.status === "canceled" && (
-                      <Badge variant="destructive">Pago</Badge>
+                      <Badge variant="destructive">Cancelado</Badge>
                     )}
-                    <div className="flex items-center justify-between">
-                      <p>
-                        Pedido feito em{" "}
-                        {new Date(order.createdAt).toLocaleDateString("pt-BR")}{" "}
-                        às{" "}
-                        {new Date(order.createdAt).toLocaleTimeString("pt-BR", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                    </div>
+                    <p>
+                      Pedido feito em{" "}
+                      {new Date(order.createdAt).toLocaleDateString("pt-BR")} às{" "}
+                      {new Date(order.createdAt).toLocaleTimeString("pt-BR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <CartSummary
-                    subtotalInCents={order.totalPriceInCents}
-                    totalInCents={order.totalPriceInCents}
-                    products={order.items.map((item) => ({
-                      id: item.id,
-                      name: item.productName,
-                      variantName: item.productVariantName,
-                      quantity: item.quantity,
-                      priceInCents: item.priceInCents,
-                      imageUrl: item.imageUrl,
-                    }))}
-                  />
+                  {order.items.map((product) => (
+                    <div
+                      className="flex items-center justify-between"
+                      key={product.id}
+                    >
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={product.imageUrl}
+                          alt={product.productName}
+                          width={78}
+                          height={78}
+                          className="rounded-lg"
+                        />
+                        <div className="flex flex-col gap-1">
+                          <p className="text-sm font-semibold">
+                            {product.productName}
+                          </p>
+                          <p className="text-muted-foreground text-xs font-medium">
+                            {product.productVariantName} x {product.quantity}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end justify-center gap-2">
+                        <p className="text-sm font-bold">
+                          {formatCentsToBRL(
+                            product.priceInCents * product.quantity,
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="py-5">
+                    <Separator />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <p className="text-sm">Subtotal</p>
+                      <p className="text-muted-foreground text-sm font-medium">
+                        {formatCentsToBRL(order.totalPriceInCents)}
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-sm">Frete</p>
+                      <p className="text-muted-foreground text-sm font-medium">
+                        GRÁTIS
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-sm">Total</p>
+                      <p className="text-sm font-semibold">
+                        {formatCentsToBRL(order.totalPriceInCents)}
+                      </p>
+                    </div>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

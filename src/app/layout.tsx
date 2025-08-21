@@ -1,11 +1,12 @@
-import "./globals.css";
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
+import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-
-import ReactQueryProvider from "./providers/react-query";
+import ReactQueryProvider from "@/providers/react-query";
+import Footer from "@/components/common/footer";
+import { Header } from "@/components/common/header";
+import Menu from "@/components/common/menu";
+import { CartSheetProvider } from "@/hooks/use-cart-sheet";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,8 +33,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-        <Toaster />
+        <ReactQueryProvider>
+          <CartSheetProvider>
+            <Header />
+            <Menu isBorder={true} />
+            <div className="container mx-auto md:min-h-[calc(100vh-302px)]">
+              {children}
+            </div>
+            <Footer />
+          </CartSheetProvider>
+        </ReactQueryProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

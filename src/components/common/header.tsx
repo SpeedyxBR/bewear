@@ -1,4 +1,8 @@
 "use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRightIcon,
   HomeIcon,
@@ -6,12 +10,10 @@ import {
   MenuIcon,
   ShoppingBagIcon,
   TruckIcon,
+  UserIcon,
 } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -22,7 +24,6 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -31,45 +32,73 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { Cart } from "./cart";
+import { SearchModal } from "./search-modal";
 
 export const Header = () => {
   const { data: session } = authClient.useSession();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Debug para verificar se a sessão está funcionando
-  console.log("Session data:", session);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
 
-  // Debug para verificar se o logo está carregando
-  console.log("Logo path:", "/logo.svg");
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="flex items-center justify-between p-5">
-      <Link href="/" className="flex items-center">
-        {/* Logo principal - texto BEWEAR */}
-        <div className="text-2xl font-bold text-purple-600">
-          BEWEAR
-        </div>
-        
-        {/* Logo de imagem como fallback opcional */}
-        <img
-          src="/logo.svg"
-          alt="BEWEAR Logo"
-          width={100}
-          height={26.14}
-          className="h-auto w-auto ml-2 hidden"
-          onError={(e) => {
-            console.log("Logo SVG falhou");
-            e.currentTarget.style.display = "none";
-          }}
-          onLoad={(e) => {
-            console.log("Logo SVG carregado, escondendo texto");
-            e.currentTarget.previousElementSibling?.classList.add("hidden");
-            e.currentTarget.classList.remove("hidden");
-          }}
-        />
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5 w-full transition-all duration-300 relative ${
+        isScrolled
+          ? "bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50"
+          : "bg-white"
+      }`}
+    >
+      {/* Logo à esquerda no mobile */}
+      <Link href="/" className="block md:hidden">
+        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
+      {/* Login apenas na web */}
+      <div className="hidden md:block">
+        {session?.user ? (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => authClient.signOut()}
+              className="text-black"
+            >
+              <UserIcon />
+            </Button>
+            <span className="text-gray-700">Olá, {session.user.name}</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" asChild className="text-black">
+              <Link href="/authentication">
+                <UserIcon />
+              </Link>
+            </Button>
+            <span className="text-gray-700">Faça seu cadastro</span>
+          </div>
+        )}
+      </div>
+
+      {/* Logo centralizado na web */}
+      <Link
+        href="/"
+        className="hidden md:flex absolute left-1/2 transform -translate-x-1/2"
+      >
+        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+      </Link>
+
+      {/* Menu e carrinho à direita */}
       <div className="flex items-center gap-3">
         <Sheet>
           <SheetTrigger asChild>
@@ -129,7 +158,6 @@ export const Header = () => {
                   )}
                 </div>
 
-                <Separator />
                 {/* Navegação Principal - Mais próxima e destacada */}
                 <div className="py-3">
                   <h3 className="font-semibold text-sm text-gray-600 uppercase tracking-wide px-4 mb-2">
@@ -187,7 +215,6 @@ export const Header = () => {
                   </div>
                 </div>
 
-                <Separator />
                 <div className="py-3">
                   <h3 className="font-semibold text-sm text-gray-600 uppercase tracking-wide px-4 mb-2">
                     Categorias
@@ -246,7 +273,6 @@ export const Header = () => {
                 {/* Botão de Logout para usuários logados - NO FINAL */}
                 {session && session.user && (
                   <>
-                    <Separator />
                     <div className="mt-auto py-6">
                       <Button
                         variant="ghost"
@@ -316,6 +342,11 @@ export const Header = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
     </header>
   );
 };

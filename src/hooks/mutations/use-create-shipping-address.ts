@@ -4,21 +4,19 @@ import { createShippingAddress } from "@/actions/create-shipping-address";
 
 import { getUserAddressesQueryKey } from "../queries/use-user-addresses";
 
-
-
 export const getCreateShippingAddressMutationKey = () =>
-    ["create-shipping-address"] as const;
+  ["create-shipping-address"] as const;
 
 export const useCreateShippingAddress = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationKey: getCreateShippingAddressMutationKey(),
-        mutationFn: createShippingAddress,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: getUserAddressesQueryKey(),
-            });
-        },
-    });
+  return useMutation({
+    mutationKey: getCreateShippingAddressMutationKey(),
+    mutationFn: createShippingAddress,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getUserAddressesQueryKey(),
+      });
+    },
+  });
 };

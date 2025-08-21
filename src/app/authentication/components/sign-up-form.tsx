@@ -1,7 +1,7 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -23,13 +23,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const signUpSchema = z
+const formSchema = z
   .object({
-    username: z.string("Nome inválido").trim().min(2, "Nome inválido"),
+    name: z.string("Nome inválido").trim().min(1, "Nome é obrigatório"),
     email: z.email("Email inválido"),
-    password: z.string("Senha inválida").min(8, "Senha inválida"),
-    passwordConfirmation: z.string("Senha inválida"),
+    password: z.string("Senha Inválida!").min(8, "Senha inválida"),
+    passwordConfirmation: z.string("Senha Inválida").min(8, "Senha inválida"),
   })
   .refine(
     (data) => {
@@ -41,71 +43,68 @@ const signUpSchema = z
     },
   );
 
-type TSignUpSchema = z.infer<typeof signUpSchema>;
+type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
   const router = useRouter();
-  const sign_up_form = useForm<TSignUpSchema>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
     },
   });
 
-  const onSubmit = async (values: TSignUpSchema) => {
+  async function onSubmit(values: FormValues) {
     await authClient.signUp.email({
-      name: values.username,
-      email: values.email,
-      password: values.password,
+      name: values.name, // required
+      email: values.email, // required
+      password: values.password, // required
       fetchOptions: {
         onSuccess: () => {
-          //   toast.success("Conta criada com sucesso!");
           router.push("/");
         },
         onError: (error) => {
           if (error.error.code === "USER_ALREADY_EXISTS") {
-            toast.error("E-mail já cadastrado");
-            return sign_up_form.setError("email", {
-              message: "E-mail já cadastrado",
+            toast.error("E-mail já cadastrado.");
+            form.setError("email", {
+              message: "E-mail já cadastrado.",
             });
           }
           toast.error(error.error.message);
         },
       },
     });
-  };
+  }
+
   return (
     <>
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Criar Conta</CardTitle>
-          <CardDescription>Crie uma conta para continuar</CardDescription>
+          <CardTitle>Entrar</CardTitle>
+          <CardDescription>Faça login para continuar.</CardDescription>
         </CardHeader>
-        <Form {...sign_up_form}>
-          <form
-            onSubmit={sign_up_form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
-            <CardContent className="grid gap-6">
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <CardContent className="grid w-full gap-6">
               <FormField
-                control={sign_up_form.control}
-                name="username"
+                control={form.control}
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
                       <Input placeholder="Digite seu nome" {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={sign_up_form.control}
+                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -113,13 +112,12 @@ const SignUpForm = () => {
                     <FormControl>
                       <Input placeholder="Digite seu email" {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={sign_up_form.control}
+                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
@@ -127,38 +125,34 @@ const SignUpForm = () => {
                     <FormControl>
                       <Input
                         placeholder="Digite sua senha"
-                        {...field}
                         type="password"
+                        {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={sign_up_form.control}
+                control={form.control}
                 name="passwordConfirmation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirme sua senha</FormLabel>
+                    <FormLabel>Confirmar Senha</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Digite a sua senha novamente"
-                        {...field}
+                        placeholder="Confirme sua senha"
                         type="password"
+                        {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">
-                Entrar
-              </Button>
+              <Button type="submit">Entrar</Button>
             </CardFooter>
           </form>
         </Form>

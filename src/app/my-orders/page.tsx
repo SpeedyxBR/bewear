@@ -2,19 +2,17 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
 import { db } from "@/db";
 import { orderTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import Orders from "./components/orders";
+import Footer from "@/components/common/footer";
 
 const MyOrdersPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
   if (!session?.user.id) {
     redirect("/login");
   }
@@ -32,11 +30,10 @@ const MyOrdersPage = async () => {
       },
     },
   });
+
   return (
     <>
-      <Header />
-
-      <div className="px-5">
+      <div className="px-5 py-5">
         <Orders
           orders={orders.map((order) => ({
             id: order.id,
@@ -54,7 +51,6 @@ const MyOrdersPage = async () => {
           }))}
         />
       </div>
-      <Footer />
     </>
   );
 };

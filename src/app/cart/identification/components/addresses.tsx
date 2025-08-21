@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
@@ -27,8 +26,8 @@ import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-
 import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
 import { useCart } from "@/hooks/queries/use-cart";
 import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
-
-import { formatAddress } from "../../helpers/address";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.email("E-mail inválido"),
@@ -86,16 +85,18 @@ const Addresses = ({
     try {
       const newAddress =
         await createShippingAddressMutation.mutateAsync(values);
-      toast.success("Endereço criado com sucesso!");
+      toast.success("Endereço criado com sucesso!", { duration: 1000 });
       form.reset();
       setSelectedAddress(newAddress.id);
 
       await updateCartShippingAddressMutation.mutateAsync({
         shippingAddressId: newAddress.id,
       });
-      toast.success("Endereço vinculado ao carrinho!");
+      toast.success("Endereço vinculado ao carrinho!", { duration: 1000 });
     } catch (error) {
-      toast.error("Erro ao criar endereço. Tente novamente.");
+      toast.error("Erro ao criar endereço. Tente novamente.", {
+        duration: 1000,
+      });
       console.error(error);
     }
   };
@@ -107,11 +108,12 @@ const Addresses = ({
       await updateCartShippingAddressMutation.mutateAsync({
         shippingAddressId: selectedAddress,
       });
-      toast.success("Endereço selecionado para entrega!");
-
+      toast.success("Endereço selecionado para entrega!", { duration: 1000 });
       router.push("/cart/confirmation");
     } catch (error) {
-      toast.error("Erro ao selecionar endereço. Tente novamente.");
+      toast.error("Erro ao selecionar endereço. Tente novamente.", {
+        duration: 1000,
+      });
       console.error(error);
     }
   };
@@ -119,7 +121,7 @@ const Addresses = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Identificação</CardTitle>
+        <CardTitle className="text-2xl font-bold">Identificação</CardTitle>
       </CardHeader>
       <CardContent>
         {isLoading ? (
@@ -147,7 +149,14 @@ const Addresses = ({
                     <div className="flex-1">
                       <Label htmlFor={address.id} className="cursor-pointer">
                         <div>
-                          <p className="text-sm">{formatAddress(address)}</p>
+                          <p className="text-sm">
+                            {address.recipientName} • {address.street},
+                            {address.number}
+                            {address.complement &&
+                              `, ${address.complement}`}, {address.neighborhood}
+                            , {address.city} - {address.state} • CEP:
+                            {address.zipCode}
+                          </p>
                         </div>
                       </Label>
                     </div>
@@ -170,8 +179,9 @@ const Addresses = ({
         {selectedAddress && selectedAddress !== "add_new" && (
           <div className="mt-4">
             <Button
+              className="w-full rounded-full py-6 text-lg font-semibold"
+              size="lg"
               onClick={handleGoToPayment}
-              className="w-full"
               disabled={updateCartShippingAddressMutation.isPending}
             >
               {updateCartShippingAddressMutation.isPending

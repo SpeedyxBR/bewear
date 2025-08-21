@@ -1,7 +1,6 @@
 "use client";
 
-import { ShoppingBasketIcon } from "lucide-react";
-import Link from "next/link";
+import { ShoppingBagIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { formatCentsToBRL } from "@/helpers/money";
@@ -17,91 +16,100 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import CartItem from "./cart-item";
+import Link from "next/link";
+import { useCartSheet } from "@/hooks/use-cart-sheet";
 
 export const Cart = () => {
+  const { isOpen, setIsOpen, closeCart } = useCartSheet();
   const { data: cart } = useCart();
-
-  const hasItems = cart?.items && cart.items.length > 0;
-
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
-          <ShoppingBasketIcon />
+        <Button
+          variant="link"
+          className="text-black [&_svg:not([class*='size-'])]:size-auto"
+        >
+          <ShoppingBagIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="rounded-4xl [&>button:last-child]:hidden">
         <SheetHeader>
-          <SheetTitle>Carrinho</SheetTitle>
+          <SheetTitle className="mt-2 px-3">Carrinho</SheetTitle>
         </SheetHeader>
+        <Button
+          onClick={closeCart}
+          variant="outline"
+          className="absolute top-4 right-4 h-9 w-9 rounded-full bg-gray-200"
+        >
+          <XIcon />
+        </Button>
         <div className="flex h-full flex-col px-5 pb-5">
           <div className="flex h-full max-h-full flex-col overflow-hidden">
-            {hasItems ? (
-              <>
-                <ScrollArea className="h-full">
-                  <div className="flex h-full flex-col gap-8">
-                    {cart?.items.map((item) => (
-                      <CartItem
-                        key={item.id}
-                        id={item.id}
-                        productVariantId={item.productVariant.id}
-                        productName={item.productVariant.product.name}
-                        productVariantName={item.productVariant.name}
-                        productVariantImageUrl={item.productVariant.imageUrl}
-                        productVariantPriceInCents={
-                          item.productVariant.priceInCents
-                        }
-                        quantity={item.quantity}
-                      />
-                    ))}
+            <ScrollArea className="h-full">
+              <div className="flex h-full flex-col gap-8">
+                {cart?.items && cart.items.length > 0 ? (
+                  cart.items.map((item) => (
+                    <CartItem
+                      key={item.id}
+                      id={item.id}
+                      productVariantId={item.productVariant.id}
+                      productName={item.productVariant.product.name}
+                      productVariantName={item.productVariant.name}
+                      productVariantImageUrl={item.productVariant.imageUrl}
+                      productVariantPriceInCents={
+                        item.productVariant.priceInCents
+                      }
+                      quantity={item.quantity}
+                    />
+                  ))
+                ) : (
+                  <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
+                    <ShoppingBagIcon className="text-muted-foreground h-16 w-16" />
+                    <p className="text-muted-foreground text-center text-lg font-semibold">
+                      Carrinho vazio
+                    </p>
                   </div>
-                </ScrollArea>
-
-                <div className="flex flex-col gap-4">
-                  <Separator />
-
-                  <div className="flex items-center justify-between text-xs font-medium">
-                    <p>Subtotal</p>
-                    <p>{formatCentsToBRL(cart?.totalPriceInCents ?? 0)}</p>
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between text-xs font-medium">
-                    <p>Entrega</p>
-                    <p>GRÁTIS</p>
-                  </div>
-
-                  <Separator />
-
-                  <div className="flex items-center justify-between text-xs font-medium">
-                    <p>Total</p>
-                    <p>{formatCentsToBRL(cart?.totalPriceInCents ?? 0)}</p>
-                  </div>
-
-                  <Button className="mt-5 rounded-full" asChild>
-                    <Link href="/cart/identification">Finalizar compra</Link>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              // Carrinho vazio
-              <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
-                <ShoppingBasketIcon className="h-16 w-16 text-gray-300" />
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-600">
-                    Seu carrinho está vazio
-                  </h3>
-                  <p className="text-sm text-gray-500 max-w-xs">
-                    Adicione produtos para começar suas compras
-                  </p>
-                </div>
-                <Button variant="outline" className="mt-4" asChild>
-                  <Link href="/">Continuar comprando</Link>
-                </Button>
+                )}
               </div>
-            )}
+            </ScrollArea>
           </div>
+
+          {cart?.items && cart?.items.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <Separator />
+
+              <div className="flex items-center justify-between text-xs font-medium">
+                <p className="text-sm font-semibold">Subtotal</p>
+                <p className="text-sm">
+                  {formatCentsToBRL(cart?.totalPriceInCents ?? 0)}
+                </p>
+              </div>
+
+              <Separator />
+
+              <div className="flex items-center justify-between text-xs font-medium">
+                <p className="text-sm font-semibold">Entrega</p>
+                <p className="text-sm">GRÁTIS</p>
+              </div>
+
+              <Separator />
+
+              <div className="flex items-center justify-between text-xs font-medium">
+                <p className="text-lg font-semibold">Total</p>
+                <p className="text-sm">
+                  {formatCentsToBRL(cart?.totalPriceInCents ?? 0)}
+                </p>
+              </div>
+
+              <Button
+                onClick={closeCart}
+                className="mt-5 rounded-full py-6 text-lg leading-2 font-semibold"
+                asChild
+              >
+                <Link href="/cart/identification">Finalizar compra</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
