@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -31,6 +31,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+
 import { Cart } from "./cart";
 import { SearchModal } from "./search-modal";
 
@@ -48,12 +49,15 @@ export const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5 w-full transition-all duration-300 relative ${
+      className={`sticky top-0 z-50 flex items-center justify-between px-8 py-5 w-full transition-all duration-300 ${
         isScrolled
           ? "bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50"
           : "bg-white"
