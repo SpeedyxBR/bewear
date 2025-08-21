@@ -65,7 +65,7 @@ export const Header = () => {
     >
       {/* Logo à esquerda no mobile */}
       <Link href="/" className="block md:hidden">
-        <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/Logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
       {/* Login apenas na webf */}
@@ -99,7 +99,7 @@ export const Header = () => {
         href="/"
         className="hidden md:flex absolute left-1/2 transform -translate-x-1/2"
       >
-        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/Logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
       {/* Menu e carrinho à direita */}
