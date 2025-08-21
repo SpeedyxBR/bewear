@@ -3,7 +3,9 @@
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
+import { AuthDialog } from "@/components/common/auth-dialog";
 import { Button } from "@/components/ui/button";
+import { useAuthCheck } from "@/hooks/use-auth-check";
 
 import AddToCartButton from "./add-to-cart-button";
 
@@ -13,6 +15,8 @@ interface ProductActionsProps {
 
 const ProductActions = ({ productVariantId }: ProductActionsProps) => {
   const [quantity, setQuantity] = useState(1);
+  const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
+    useAuthCheck();
 
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
@@ -20,6 +24,13 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
+  };
+
+  const handleBuyNow = () => {
+    requireAuth(() => {
+      // Redireciona para checkout com o produto
+      window.location.href = `/checkout?product=${productVariantId}&quantity=${quantity}`;
+    }, "Faça login para finalizar sua compra!");
   };
 
   return (
@@ -46,10 +57,17 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
         <Button
           className="rounded-full py-6 text-lg leading-2 font-bold"
           size="lg"
+          onClick={handleBuyNow}
         >
           Comprar agora
         </Button>
       </div>
+
+      <AuthDialog
+        open={showLoginDialog}
+        onOpenChange={setShowLoginDialog}
+        message={dialogMessage}
+      />
     </>
   );
 };

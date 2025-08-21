@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import ReactQueryProvider from "@/providers/react-query";
 import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
+import { HeaderWrapper } from "@/components/common/header-wrapper";
 import Menu from "@/components/common/menu";
 import { CartSheetProvider } from "@/hooks/use-cart-sheet";
 
@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           <CartSheetProvider>
-            <Header />
+            <HeaderWrapper />
             <Menu isBorder={true} />
             <div className="container mx-auto md:min-h-[calc(100vh-302px)]">
               {children}

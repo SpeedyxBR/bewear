@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 
 import { categoryTable } from "@/db/schema";
+import { useAuthCheck } from "@/hooks/use-auth-check";
+import { AuthDialog } from "./auth-dialog";
 import { Button } from "../ui/button";
 
 interface CategorySelectorProps {
@@ -8,6 +12,15 @@ interface CategorySelectorProps {
 }
 
 const CategorySelector = ({ categories }: CategorySelectorProps) => {
+  const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
+    useAuthCheck();
+
+  const handleCategoryClick = (categorySlug: string) => {
+    requireAuth(() => {
+      window.location.href = `/category/${categorySlug}`;
+    }, "Faça login para explorar nossas categorias de produtos exclusivos!");
+  };
+
   return (
     <>
       {categories.map((category) => (
@@ -15,10 +28,17 @@ const CategorySelector = ({ categories }: CategorySelectorProps) => {
           key={category.id}
           variant="ghost"
           className="pointer-events-auto rounded-full bg-white text-sm font-semibold"
+          onClick={() => handleCategoryClick(category.slug)}
         >
-          <Link href={`/category/${category.slug}`}>{category.name}</Link>
+          {category.name}
         </Button>
       ))}
+
+      <AuthDialog
+        open={showLoginDialog}
+        onOpenChange={setShowLoginDialog}
+        message={dialogMessage}
+      />
     </>
   );
 };

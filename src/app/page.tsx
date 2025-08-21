@@ -5,6 +5,7 @@ import CategorySelector from "@/components/common/category-selector";
 import CarouselList from "@/components/common/carousel-list";
 import Brands from "@/components/common/brands";
 import ProductList from "@/components/common/products-list";
+
 import Showcase from "@/components/common/showcase";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
