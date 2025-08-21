@@ -65,7 +65,7 @@ export const Header = () => {
     >
       {/* Logo à esquerda no mobile */}
       <Link href="/" className="block md:hidden">
-        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
       {/* Login apenas na web */}
