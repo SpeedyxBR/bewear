@@ -68,7 +68,7 @@ export const Header = () => {
         <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
-      {/* Login apenas na web */}
+      {/* Login apenas na webf */}
       <div className="hidden md:block">
         {session?.user ? (
           <div className="flex items-center gap-2">
