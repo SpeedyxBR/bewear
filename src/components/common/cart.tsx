@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBagIcon, XIcon } from "lucide-react";
+import { ShoppingBag, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { formatCentsToBRL } from "@/helpers/money";
@@ -25,12 +25,8 @@ export const Cart = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="link"
-          className="text-black [&_svg:not([class*='size-'])]:size-auto"
-          onClick={() => (window.location.href = "/cart")}
-        >
-          <ShoppingBagIcon />
+        <Button variant="outline" size="icon">
+          <ShoppingBag />
         </Button>
       </SheetTrigger>
       <SheetContent className="rounded-4xl [&>button:last-child]:hidden">
@@ -65,7 +61,7 @@ export const Cart = () => {
                   ))
                 ) : (
                   <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
-                    <ShoppingBagIcon className="text-muted-foreground h-16 w-16" />
+                    <ShoppingBag className="text-muted-foreground h-16 w-16" />
                     <p className="text-muted-foreground text-center text-lg font-semibold">
                       Carrinho vazio
                     </p>

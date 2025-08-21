@@ -41,6 +41,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
   const { data: session } = authClient.useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
     useAuthCheck();
@@ -117,7 +118,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
           <Search className="h-4 w-4" />
         </Button>
 
-        <Sheet>
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
               <MenuIcon />
@@ -215,10 +216,12 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
                       onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/cart"),
-                          "Faça login para acessar sua sacola!"
-                        );
+                        requireAuth(() => {
+                          // Fecha o menu primeiro
+                          setIsMenuOpen(false);
+                          // Redireciona para a página de identificação do carrinho
+                          window.location.href = "/cart/identification";
+                        }, "Faça login para acessar sua sacola!");
                       }}
                     >
                       <ShoppingBagIcon className="h-5 w-5" />
