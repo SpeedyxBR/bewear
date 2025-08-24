@@ -1,18 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export const useAuthCheck = () => {
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Verificar se o usuário está logado
+    const checkAuth = async () => {
+      try {
+        const session = await authClient.getSession();
+        // Verificar se session existe e tem dados válidos
+        const isAuth = !!session && "user" in session && !!session.user;
+        setIsAuthenticated(isAuth);
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   const requireAuth = (callback: () => void, message: string) => {
-    // Por enquanto, sempre mostra o diálogo de login
-    // Você pode implementar a lógica de verificação de autenticação aqui
-    setDialogMessage(message);
-    setShowLoginDialog(true);
+    if (isAuthenticated) {
+      // Se já está logado, executa a callback
+      callback();
+    } else {
+      // Se não está logado, mostra o diálogo
+      setDialogMessage(message);
+      setShowLoginDialog(true);
+    }
   };
 
   return {
@@ -20,5 +40,6 @@ export const useAuthCheck = () => {
     showLoginDialog,
     setShowLoginDialog,
     dialogMessage,
+    isAuthenticated,
   };
 };

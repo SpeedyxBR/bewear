@@ -38,7 +38,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ categories = [], products = [] }: HeaderProps) => {
-  const { data: session } = authClient.useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
 
@@ -82,33 +81,19 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
 
       {/* Login apenas na webf */}
       <div className="hidden md:block">
-        {session?.user ? (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => authClient.signOut()}
-              className="text-black hover:bg-gray-100 rounded-full p-2"
-            >
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="text-black hover:bg-gray-100 rounded-full p-2"
+          >
+            <Link href="/authentication">
               <User className="h-6 w-6" />
-            </Button>
-            <span className="text-gray-700">Olá, {session.user.name}</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              asChild
-              className="text-black hover:bg-gray-100 rounded-full p-2"
-            >
-              <Link href="/authentication">
-                <User className="h-6 w-6" />
-              </Link>
-            </Button>
-            <span className="text-gray-700">Faça seu cadastro</span>
-          </div>
-        )}
+            </Link>
+          </Button>
+          <span className="text-gray-700">Faça seu cadastro</span>
+        </div>
       </div>
 
       {/* Logo centralizado na web */}
@@ -153,47 +138,27 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
               <div className="flex flex-col h-full min-h-0 overflow-y-auto pb-20">
                 {/* Seção de Usuário */}
                 <div className="py-4">
-                  {session?.user ? (
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                      <Avatar>
-                        <AvatarImage
-                          src={session?.user?.image as string | undefined}
-                        />
-                        <AvatarFallback>
-                          {session?.user?.name?.split(" ")[0]?.[0]}
-                          {session?.user?.name?.split(" ")[1]?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{session?.user?.name}</h3>
-                        <span className="text-muted-foreground block text-xs">
-                          {session?.user?.email}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center justify-between gap-4">
-                        <h2 className="font-semibold text-gray-800">
-                          Olá. Faça o seu login!
-                        </h2>
-                        <Button
-                          asChild
-                          variant="default"
-                          size="sm"
-                          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 h-auto"
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between gap-4">
+                      <h2 className="font-semibold text-gray-800">
+                        Olá. Faça o seu login!
+                      </h2>
+                      <Button
+                        asChild
+                        variant="default"
+                        size="sm"
+                        className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 h-auto"
+                      >
+                        <Link
+                          href="/authentication"
+                          className="flex items-center gap-2"
                         >
-                          <Link
-                            href="/authentication"
-                            className="flex items-center gap-2"
-                          >
-                            <span>Login</span>
-                            <ArrowRightIcon className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      </div>
+                          <span>Login</span>
+                          <ArrowRightIcon className="h-4 w-4" />
+                        </Link>
+                      </Button>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 {/* Navegação Principal - Mais próxima e destacada */}
@@ -205,15 +170,12 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/"),
-                          "Faça login para acessar a página inicial!"
-                        );
-                      }}
+                      asChild
                     >
-                      <HomeIcon className="h-5 w-5" />
-                      <span>Início</span>
+                      <Link href="/">
+                        <HomeIcon className="h-5 w-5" />
+                        <span>Início</span>
+                      </Link>
                     </Button>
 
                     {/* Meus Pedidos - Sempre visível */}
@@ -223,7 +185,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
                       onClick={() => {
                         requireAuth(
                           () => (window.location.href = "/my-orders"),
-                          "Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se veste com personalidade."
+                          "Faça login para acessar seus pedidos!"
                         );
                       }}
                     >
@@ -259,96 +221,53 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
                       size="sm"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/category/camisetas"),
-                          "Faça login para explorar nossas camisetas exclusivas!"
-                        );
-                      }}
+                      asChild
                     >
-                      Camisetas
+                      <Link href="/category/camisetas">Camisetas</Link>
                     </Button>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () =>
-                            (window.location.href = "/category/bermuda-shorts"),
-                          "Faça login para explorar bermudas e shorts!"
-                        );
-                      }}
+                      asChild
                     >
-                      Bermuda & Shorts
+                      <Link href="/category/bermuda-shorts">
+                        Bermuda & Shorts
+                      </Link>
                     </Button>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/category/calcas"),
-                          "Faça login para explorar nossas calças!"
-                        );
-                      }}
+                      asChild
                     >
-                      Calças
+                      <Link href="/category/calcas">Calças</Link>
                     </Button>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () =>
-                            (window.location.href =
-                              "/category/jaquetas-moletons"),
-                          "Faça login para explorar jaquetas e moletons!"
-                        );
-                      }}
+                      asChild
                     >
-                      Jaquetas & Moletons
+                      <Link href="/category/jaquetas-moletons">
+                        Jaquetas & Moletons
+                      </Link>
                     </Button>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/category/tenis"),
-                          "Faça login para explorar nossos tênis!"
-                        );
-                      }}
+                      asChild
                     >
-                      Tênis
+                      <Link href="/category/tenis">Tênis</Link>
                     </Button>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/category/acessorios"),
-                          "Faça login para explorar nossos acessórios!"
-                        );
-                      }}
+                      asChild
                     >
-                      Acessórios
+                      <Link href="/category/acessorios">Acessórios</Link>
                     </Button>
                   </div>
                 </div>
 
-                {/* Botão de Logout para usuários logados - NO FINAL */}
-                {session && session.user && (
-                  <>
-                    <div className="mt-auto py-6">
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-between h-12 px-4 text-gray-600 hover:text-gray-800 hover:bg-gray-50"
-                        onClick={() => authClient.signOut()}
-                      >
-                        <span>Sair da conta</span>
-                        <LogOutIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </>
-                )}
+                {/* Botão de Logout removido temporariamente */}
               </div>
             </ScrollArea>
           </SheetContent>

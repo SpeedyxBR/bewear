@@ -6,6 +6,8 @@ import { Loader2 } from "lucide-react";
 import { addProductToCart } from "@/actions/add-cart-product";
 import { Button } from "@/components/ui/button";
 import { useCartSheet } from "@/hooks/use-cart-sheet";
+import { useAuthCheck } from "@/hooks/use-auth-check";
+import { AuthDialog } from "@/components/common/auth-dialog";
 import { toast } from "sonner";
 
 interface AddToCartButtonProps {
@@ -19,6 +21,9 @@ const AddToCartButton = ({
 }: AddToCartButtonProps) => {
   const queryClient = useQueryClient();
   const { openCart } = useCartSheet();
+  const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
+    useAuthCheck();
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["addProductToCart", productVariantId, quantity],
     mutationFn: () =>
@@ -32,17 +37,33 @@ const AddToCartButton = ({
       openCart();
     },
   });
+
+  const handleAddToCart = () => {
+    requireAuth(
+      () => mutate(),
+      "Faça login para adicionar produtos ao carrinho!"
+    );
+  };
+
   return (
-    <Button
-      className="rounded-full py-6 text-lg font-bold"
-      size="lg"
-      variant="outline"
-      disabled={isPending}
-      onClick={() => mutate()}
-    >
-      {isPending && <Loader2 className="animate-spin" />}
-      Adicionar à sacola
-    </Button>
+    <>
+      <Button
+        className="rounded-full py-6 text-lg font-bold"
+        size="lg"
+        variant="outline"
+        disabled={isPending}
+        onClick={handleAddToCart}
+      >
+        {isPending && <Loader2 className="animate-spin" />}
+        Adicionar à sacola
+      </Button>
+
+      <AuthDialog
+        open={showLoginDialog}
+        onOpenChange={setShowLoginDialog}
+        message={dialogMessage}
+      />
+    </>
   );
 };
 
