@@ -1,30 +1,24 @@
+"use client";
+
 import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export const useAuthCheck = () => {
-  const { data: session } = authClient.useSession();
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const router = useRouter();
 
-  const requireAuth = (action: () => void, message?: string) => {
-    if (!session?.user) {
-      setDialogMessage(
-        message ||
-          "Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se veste com personalidade."
-      );
-      setShowLoginDialog(true);
-      return false;
-    }
-    action();
-    return true;
+  const requireAuth = (callback: () => void, message: string) => {
+    // Por enquanto, sempre mostra o diálogo de login
+    // Você pode implementar a lógica de verificação de autenticação aqui
+    setDialogMessage(message);
+    setShowLoginDialog(true);
   };
 
   return {
-    session,
+    requireAuth,
     showLoginDialog,
     setShowLoginDialog,
     dialogMessage,
-    requireAuth,
-    isAuthenticated: !!session?.user,
   };
 };

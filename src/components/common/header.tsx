@@ -11,8 +11,8 @@ import {
   Search,
   ShoppingBagIcon,
   TruckIcon,
-  UserIcon,
 } from "lucide-react";
+import { User } from "lucide-react";
 
 import { categoryTable, productTable } from "@/db/schema";
 import { useAuthCheck } from "@/hooks/use-auth-check";
@@ -80,17 +80,22 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
               variant="ghost"
               size="icon"
               onClick={() => authClient.signOut()}
-              className="text-black"
+              className="text-black hover:bg-gray-100 rounded-full p-2"
             >
-              <UserIcon />
+              <User className="h-6 w-6" />
             </Button>
             <span className="text-gray-700">Olá, {session.user.name}</span>
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" asChild className="text-black">
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="text-black hover:bg-gray-100 rounded-full p-2"
+            >
               <Link href="/authentication">
-                <UserIcon />
+                <User className="h-6 w-6" />
               </Link>
             </Button>
             <span className="text-gray-700">Faça seu cadastro</span>
@@ -130,7 +135,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
             </SheetHeader>
 
             <ScrollArea className="h-full w-full">
-              <div className="flex flex-col h-full min-h-0">
+              <div className="flex flex-col h-full min-h-0 overflow-y-auto pb-20">
                 {/* Seção de Usuário */}
                 <div className="py-4">
                   {session?.user ? (

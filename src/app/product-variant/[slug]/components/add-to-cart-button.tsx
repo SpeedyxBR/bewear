@@ -2,13 +2,11 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
 
 import { addProductToCart } from "@/actions/add-cart-product";
-import { AuthDialog } from "@/components/common/auth-dialog";
 import { Button } from "@/components/ui/button";
-import { useAuthCheck } from "@/hooks/use-auth-check";
 import { useCartSheet } from "@/hooks/use-cart-sheet";
+import { toast } from "sonner";
 
 interface AddToCartButtonProps {
   productVariantId: string;
@@ -21,9 +19,6 @@ const AddToCartButton = ({
 }: AddToCartButtonProps) => {
   const queryClient = useQueryClient();
   const { openCart } = useCartSheet();
-  const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
-    useAuthCheck();
-
   const { mutate, isPending } = useMutation({
     mutationKey: ["addProductToCart", productVariantId, quantity],
     mutationFn: () =>
@@ -37,33 +32,17 @@ const AddToCartButton = ({
       openCart();
     },
   });
-
-  const handleAddToCart = () => {
-    requireAuth(
-      () => mutate(),
-      "Faça login para adicionar produtos ao seu carrinho!"
-    );
-  };
-
   return (
-    <>
-      <Button
-        className="rounded-full py-6 text-lg font-bold"
-        size="lg"
-        variant="outline"
-        disabled={isPending}
-        onClick={handleAddToCart}
-      >
-        {isPending && <Loader2 className="animate-spin" />}
-        Adicionar à sacola
-      </Button>
-
-      <AuthDialog
-        open={showLoginDialog}
-        onOpenChange={setShowLoginDialog}
-        message={dialogMessage}
-      />
-    </>
+    <Button
+      className="rounded-full py-6 text-lg font-bold"
+      size="lg"
+      variant="outline"
+      disabled={isPending}
+      onClick={() => mutate()}
+    >
+      {isPending && <Loader2 className="animate-spin" />}
+      Adicionar à sacola
+    </Button>
   );
 };
 

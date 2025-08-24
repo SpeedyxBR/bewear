@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBag, XIcon } from "lucide-react";
+import { ShoppingBagIcon, X, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { formatCentsToBRL } from "@/helpers/money";
@@ -18,6 +18,7 @@ import {
 import CartItem from "./cart-item";
 import Link from "next/link";
 import { useCartSheet } from "@/hooks/use-cart-sheet";
+import ButtonClose from "./button-close";
 
 export const Cart = () => {
   const { isOpen, setIsOpen, closeCart } = useCartSheet();
@@ -25,21 +26,18 @@ export const Cart = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
-          <ShoppingBag />
+        <Button
+          variant="link"
+          className="text-black [&_svg:not([class*='size-'])]:size-auto"
+        >
+          <ShoppingBagIcon />
         </Button>
       </SheetTrigger>
       <SheetContent className="rounded-4xl [&>button:last-child]:hidden">
         <SheetHeader>
           <SheetTitle className="mt-2 px-3">Carrinho</SheetTitle>
         </SheetHeader>
-        <Button
-          onClick={closeCart}
-          variant="outline"
-          className="absolute top-4 right-4 h-9 w-9 rounded-full bg-gray-200"
-        >
-          <XIcon />
-        </Button>
+        <ButtonClose onClick={closeCart} className="absolute top-4 right-4" />
         <div className="flex h-full flex-col px-5 pb-5">
           <div className="flex h-full max-h-full flex-col overflow-hidden">
             <ScrollArea className="h-full">
@@ -61,7 +59,7 @@ export const Cart = () => {
                   ))
                 ) : (
                   <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
-                    <ShoppingBag className="text-muted-foreground h-16 w-16" />
+                    <ShoppingBagIcon className="text-muted-foreground h-16 w-16" />
                     <p className="text-muted-foreground text-center text-lg font-semibold">
                       Carrinho vazio
                     </p>

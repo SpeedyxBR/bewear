@@ -1,13 +1,12 @@
+import ProductList from "@/components/common/products-list";
+import { db } from "@/db";
 import { desc } from "drizzle-orm";
 import Image from "next/image";
-
-import { db } from "@/db";
-import { productTable } from "@/db/schema";
-import Brands from "@/components/common/brands";
-import CarouselList from "@/components/common/carousel-list";
 import CategorySelector from "@/components/common/category-selector";
-import ProductList from "@/components/common/products-list";
+import { productTable } from "@/db/schema";
 import Showcase from "@/components/common/showcase";
+import CarouselList from "@/components/common/carousel-list";
+import Brands from "@/components/common/brands";
 
 const Home = async () => {
   const products = await db.query.productTable.findMany({
@@ -50,22 +49,10 @@ const Home = async () => {
           <Brands />
           <CarouselList products={newlyCreatedProducts} title="Mais Vendidos" />
 
-          {/* Mobile version */}
           <div className="block px-5 md:hidden">
             <div className="rounded-3xl bg-[#F4EFFF] p-6">
               <div className="grid grid-cols-2 gap-3">
                 <CategorySelector categories={categories} />
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop version */}
-          <div className="mb-6 w-full py-3">
-            <div className="container mx-auto mb-5 hidden md:block">
-              <div className="space-y-6">
-                <div className="flex justify-around px-5">
-                  <CategorySelector categories={categories} />
-                </div>
               </div>
             </div>
           </div>
