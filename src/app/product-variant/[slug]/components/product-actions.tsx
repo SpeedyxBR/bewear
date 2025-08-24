@@ -4,6 +4,7 @@ import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { useBuyNow } from "@/hooks/mutations/use-buy-now";
 
 import AddToCartButton from "./add-to-cart-button";
 
@@ -13,6 +14,7 @@ interface ProductActionsProps {
 
 const ProductActions = ({ productVariantId }: ProductActionsProps) => {
   const [quantity, setQuantity] = useState(1);
+  const buyNowMutation = useBuyNow();
 
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
@@ -20,6 +22,13 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
+  };
+
+  const handleBuyNow = () => {
+    buyNowMutation.mutate({
+      productVariantId,
+      quantity,
+    });
   };
 
   return (
@@ -46,8 +55,10 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
         <Button
           className="rounded-full py-6 text-lg leading-2 font-bold"
           size="lg"
+          onClick={handleBuyNow}
+          disabled={buyNowMutation.isPending}
         >
-          Comprar agora
+          {buyNowMutation.isPending ? "Processando..." : "Comprar agora"}
         </Button>
       </div>
     </>
