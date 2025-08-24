@@ -69,7 +69,14 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
     >
       {/* Logo à esquerda no mobile */}
       <Link href="/" className="block md:hidden">
-        <Image src="/Logo.png" alt="BEWEAR" width={100} height={26.14} />
+        <Image
+          src="/logo.svg"
+          alt="BEWEAR"
+          width={100}
+          height={26}
+          priority
+          className="h-auto w-auto"
+        />
       </Link>
 
       {/* Login apenas na webf */}
@@ -108,7 +115,14 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
         href="/"
         className="hidden md:flex absolute left-1/2 transform -translate-x-1/2"
       >
-        <Image src="/Logo.png" alt="BEWEAR" width={100} height={26.14} />
+        <Image
+          src="/logo.svg"
+          alt="BEWEAR"
+          width={100}
+          height={26}
+          priority
+          className="h-auto w-auto"
+        />
       </Link>
 
       {/* Menu e carrinho à direita */}
