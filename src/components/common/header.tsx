@@ -41,6 +41,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
   const { data: session } = authClient.useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
@@ -70,7 +71,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
       {/* Logo à esquerda no mobile */}
       <Link href="/" className="block md:hidden">
         <Image
-          src="/logo.svg"
+          src="/Logo.png"
           alt="BEWEAR"
           width={100}
           height={26}
@@ -116,7 +117,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
         className="hidden md:flex absolute left-1/2 transform -translate-x-1/2"
       >
         <Image
-          src="/logo.svg"
+          src="/Logo.png"
           alt="BEWEAR"
           width={100}
           height={26}
@@ -131,7 +132,7 @@ export const Header = ({ categories = [], products = [] }: HeaderProps) => {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setIsSearchPopupOpen(true)}
+          onClick={() => setIsSearchModalOpen(true)}
           className="hover:bg-purple-50 hover:border-purple-300"
         >
           <Search className="h-4 w-4" />
