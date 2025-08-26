@@ -1,25 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import {
-  ArrowRightIcon,
-  HomeIcon,
+  LogInIcon,
   LogOutIcon,
   MenuIcon,
   Search,
-  ShoppingBagIcon,
-  TruckIcon,
+  UserIcon,
 } from "lucide-react";
-import { User } from "lucide-react";
-
-import { categoryTable, productTable } from "@/db/schema";
-import { useAuthCheck } from "@/hooks/use-auth-check";
-import { authClient } from "@/lib/auth-client";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Image from "next/image";
 import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -27,270 +16,134 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { AuthDialog } from "./auth-dialog";
+import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Cart } from "./cart";
 import { SearchModal } from "./search-modal";
-import { SearchPopup } from "./search-popup";
+import { useState } from "react";
 
-interface HeaderProps {
-  categories?: (typeof categoryTable.$inferSelect)[];
-  products?: (typeof productTable.$inferSelect)[];
-}
-
-export const Header = ({ categories = [], products = [] }: HeaderProps) => {
+export const Header = () => {
+  const { data: session } = authClient.useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { requireAuth, showLoginDialog, setShowLoginDialog, dialogMessage } =
-    useAuthCheck();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 flex items-center justify-between px-8 py-5 w-full transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50"
-          : "bg-white"
-      }`}
-    >
-      {/* Logo à esquerda no mobile */}
-      <Link href="/" className="block md:hidden">
-        <Image
-          src="/Logo.png"
-          alt="BEWEAR"
-          width={100}
-          height={26}
-          priority
-          className="h-auto w-auto"
-        />
-      </Link>
-
-      {/* Login apenas na webf */}
-      <div className="hidden md:block">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            asChild
-            className="text-black hover:bg-gray-100 rounded-full p-2"
-          >
-            <Link href="/authentication">
-              <User className="h-6 w-6" />
-            </Link>
-          </Button>
-          <span className="text-gray-700">Faça seu cadastro</span>
-        </div>
+    <header className="container mx-auto flex items-center justify-between p-5">
+      <div className="w-[250px] px-5">
+        {session?.user ? (
+          <>
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <Button
+                  variant="link"
+                  size="icon"
+                  className="text-black [&_svg:not([class*='size-'])]:size-auto"
+                  onClick={() => authClient.signOut()}
+                >
+                  <UserIcon />
+                </Button>
+                <div>
+                  <h3 className="font-semibold">
+                    Olá, {session?.user?.name} !
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center">
+            <Button
+              size="icon"
+              asChild
+              variant="link"
+              className="text-black [&_svg:not([class*='size-'])]:size-auto"
+            >
+              <Link href="/authentication">
+                <LogInIcon />
+              </Link>
+            </Button>
+            <h2 className="font-semibold">Olá. Faça seu login!</h2>
+          </div>
+        )}
       </div>
 
-      {/* Logo centralizado na web */}
-      <Link
-        href="/"
-        className="hidden md:flex absolute left-1/2 transform -translate-x-1/2"
-      >
-        <Image
-          src="/Logo.png"
-          alt="BEWEAR"
-          width={100}
-          height={26}
-          priority
-          className="h-auto w-auto"
-        />
+      <Link href="/">
+        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
-      {/* Menu e carrinho à direita */}
-      <div className="flex items-center gap-3">
-        {/* Ícone de busca */}
+      <div className="flex w-[250px] items-center justify-end gap-3">
         <Button
-          variant="outline"
-          size="icon"
+          variant="link"
+          className="hidden text-black md:block [&_svg:not([class*='size-'])]:size-auto"
           onClick={() => setIsSearchModalOpen(true)}
-          className="hover:bg-purple-50 hover:border-purple-300"
         >
-          <Search className="h-4 w-4" />
+          <Search />
         </Button>
-
-        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+        <div className="separator hidden md:block">|</div>
+        <Cart />
+        <div className="separator block md:hidden">|</div>
+        <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
+            <Button
+              variant="link"
+              className="block text-black md:hidden [&_svg:not([class*='size-'])]:size-auto"
+            >
               <MenuIcon />
             </Button>
           </SheetTrigger>
-          <SheetContent className="h-full">
+          <SheetContent className="rounded-4xl">
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
+            <div className="px-5">
+              {session?.user ? (
+                <>
+                  <div className="flex justify-between space-y-6">
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage
+                          src={session?.user?.image as string | undefined}
+                        />
+                        <AvatarFallback>
+                          {session?.user?.name?.split(" ")?.[0]?.[0]}
+                          {session?.user?.name?.split(" ")?.[1]?.[0]}
+                        </AvatarFallback>
+                      </Avatar>
 
-            <ScrollArea className="h-full w-full">
-              <div className="flex flex-col h-full min-h-0 overflow-y-auto pb-20">
-                {/* Seção de Usuário */}
-                <div className="py-4">
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center justify-between gap-4">
-                      <h2 className="font-semibold text-gray-800">
-                        Olá. Faça o seu login!
-                      </h2>
-                      <Button
-                        asChild
-                        variant="default"
-                        size="sm"
-                        className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 h-auto"
-                      >
-                        <Link
-                          href="/authentication"
-                          className="flex items-center gap-2"
-                        >
-                          <span>Login</span>
-                          <ArrowRightIcon className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                      <div>
+                        <h3 className="font-semibold">{session?.user?.name}</h3>
+                        <span className="text-muted-foreground block text-xs">
+                          {session?.user?.email}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* Navegação Principal - Mais próxima e destacada */}
-                <div className="py-3">
-                  <h3 className="font-semibold text-sm text-gray-600 uppercase tracking-wide px-4 mb-2">
-                    Navegação
-                  </h3>
-                  <div className="space-y-1">
                     <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
+                      variant="outline"
+                      size="icon"
+                      onClick={() => authClient.signOut()}
                     >
-                      <Link href="/">
-                        <HomeIcon className="h-5 w-5" />
-                        <span>Início</span>
-                      </Link>
-                    </Button>
-
-                    {/* Meus Pedidos - Sempre visível */}
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(
-                          () => (window.location.href = "/my-orders"),
-                          "Faça login para acessar seus pedidos!"
-                        );
-                      }}
-                    >
-                      <TruckIcon className="h-5 w-5" />
-                      <span>Meus Pedidos</span>
-                    </Button>
-
-                    {/* Sacola - Sempre visível */}
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      onClick={() => {
-                        requireAuth(() => {
-                          // Fecha o menu primeiro
-                          setIsMenuOpen(false);
-                          // Redireciona para a página de identificação do carrinho
-                          window.location.href = "/cart/identification";
-                        }, "Faça login para acessar sua sacola!");
-                      }}
-                    >
-                      <ShoppingBagIcon className="h-5 w-5" />
-                      <span>Sacola</span>
+                      <LogOutIcon />
                     </Button>
                   </div>
+                </>
+              ) : (
+                <div className="flex items-center justify-between">
+                  <h2 className="font-semibold">Olá. Faça seu login!</h2>
+                  <Button asChild variant="outline" className="rounded-full">
+                    <Link href="/authentication">
+                      Login <LogInIcon />
+                    </Link>
+                  </Button>
                 </div>
-
-                <div className="py-3">
-                  <h3 className="font-semibold text-sm text-gray-600 uppercase tracking-wide px-4 mb-2">
-                    Categorias
-                  </h3>
-                  <div className="space-y-1">
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      size="sm"
-                      asChild
-                    >
-                      <Link href="/category/camisetas">Camisetas</Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
-                    >
-                      <Link href="/category/bermuda-shorts">
-                        Bermuda & Shorts
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
-                    >
-                      <Link href="/category/calcas">Calças</Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
-                    >
-                      <Link href="/category/jaquetas-moletons">
-                        Jaquetas & Moletons
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
-                    >
-                      <Link href="/category/tenis">Tênis</Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-12 px-4"
-                      asChild
-                    >
-                      <Link href="/category/acessorios">Acessórios</Link>
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Botão de Logout removido temporariamente */}
-              </div>
-            </ScrollArea>
+              )}
+            </div>
           </SheetContent>
         </Sheet>
-        <Cart />
       </div>
-
-      <AuthDialog
-        open={showLoginDialog}
-        onOpenChange={setShowLoginDialog}
-        message={dialogMessage}
-      />
 
       <SearchModal
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
-      />
-
-      <SearchPopup
-        categories={categories}
-        products={products}
-        isOpen={isSearchPopupOpen}
-        onOpenChange={setIsSearchPopupOpen}
       />
     </header>
   );
