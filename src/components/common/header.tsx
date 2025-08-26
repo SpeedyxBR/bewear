@@ -123,7 +123,7 @@ export const Header = () => {
       </div>
 
       <Link href="/">
-        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
       <div className="flex w-[250px] items-center justify-end gap-3">
