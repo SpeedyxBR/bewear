@@ -26,6 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
 import { Cart } from "./cart";
 import { SearchModal } from "./search-modal";
+import { AuthDialog } from "./auth-dialog";
 import { useState, useEffect } from "react";
 
 export const Header = () => {
@@ -33,6 +34,13 @@ export const Header = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [authDialog, setAuthDialog] = useState<{
+    open: boolean;
+    message: { title: string; description: string };
+  }>({
+    open: false,
+    message: { title: "", description: "" },
+  });
 
   // Garante que o componente só renderiza no cliente
   useEffect(() => {
@@ -58,12 +66,24 @@ export const Header = () => {
   }
 
   // Função helper para autenticação
-  const requireAuth = (callback: () => void, message: string) => {
-    // Fecha o menu antes de executar o callback
+  const requireAuth = (
+    callback: () => void,
+    title: string,
+    description: string,
+  ) => {
+    // Fecha o menu antes de verificar autenticação
     setIsMenuOpen(false);
-    // Aqui você pode implementar a lógica de autenticação
-    // Por enquanto, vamos executar o callback diretamente
-    callback();
+
+    if (session?.user) {
+      // Usuário está logado, executa o callback
+      callback();
+    } else {
+      // Usuário não está logado, mostra o diálogo
+      setAuthDialog({
+        open: true,
+        message: { title, description },
+      });
+    }
   };
 
   return (
@@ -196,6 +216,7 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/"),
+                            "Acesso Restrito",
                             "Faça login para acessar a página inicial!",
                           );
                         }}
@@ -210,6 +231,7 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/my-orders"),
+                            "Acesso Restrito",
                             "Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se veste com personalidade.",
                           );
                         }}
@@ -222,9 +244,13 @@ export const Header = () => {
                         variant="ghost"
                         className="h-12 w-full justify-start px-4"
                         onClick={() => {
-                          requireAuth(() => {
-                            window.location.href = "/cart/identification";
-                          }, "Faça login para acessar sua sacola!");
+                          requireAuth(
+                            () => {
+                              window.location.href = "/cart/identification";
+                            },
+                            "Acesso Restrito",
+                            "Faça login para acessar sua sacola!",
+                          );
                         }}
                       >
                         <ShoppingBagIcon className="h-5 w-5" />
@@ -247,6 +273,7 @@ export const Header = () => {
                           requireAuth(
                             () =>
                               (window.location.href = "/category/camisetas"),
+                            "Acesso Restrito",
                             "Faça login para explorar nossas camisetas exclusivas!",
                           );
                         }}
@@ -261,6 +288,7 @@ export const Header = () => {
                             () =>
                               (window.location.href =
                                 "/category/bermuda-shorts"),
+                            "Acesso Restrito",
                             "Faça login para explorar bermudas e shorts!",
                           );
                         }}
@@ -273,6 +301,7 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/category/calcas"),
+                            "Acesso Restrito",
                             "Faça login para explorar nossas calças!",
                           );
                         }}
@@ -287,6 +316,7 @@ export const Header = () => {
                             () =>
                               (window.location.href =
                                 "/category/jaquetas-moletons"),
+                            "Acesso Restrito",
                             "Faça login para explorar jaquetas e moletons!",
                           );
                         }}
@@ -299,6 +329,7 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/category/tenis"),
+                            "Acesso Restrito",
                             "Faça login para explorar nossos tênis!",
                           );
                         }}
@@ -312,6 +343,7 @@ export const Header = () => {
                           requireAuth(
                             () =>
                               (window.location.href = "/category/acessorios"),
+                            "Acesso Restrito",
                             "Faça login para explorar nossos acessórios!",
                           );
                         }}
@@ -346,6 +378,12 @@ export const Header = () => {
       <SearchModal
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
+      />
+
+      <AuthDialog
+        open={authDialog.open}
+        onOpenChange={(open) => setAuthDialog((prev) => ({ ...prev, open }))}
+        message={authDialog.message}
       />
     </header>
   );
