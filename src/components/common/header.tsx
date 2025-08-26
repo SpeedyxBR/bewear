@@ -66,11 +66,7 @@ export const Header = () => {
   }
 
   // Função helper para autenticação
-  const requireAuth = (
-    callback: () => void,
-    title: string,
-    description: string,
-  ) => {
+  const requireAuth = (callback: () => void, description: string) => {
     // Fecha o menu antes de verificar autenticação
     setIsMenuOpen(false);
 
@@ -81,7 +77,7 @@ export const Header = () => {
       // Usuário não está logado, mostra o diálogo
       setAuthDialog({
         open: true,
-        message: { title, description },
+        message: { title: "", description },
       });
     }
   };
@@ -216,7 +212,6 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/"),
-                            "Acesso Restrito",
                             "Faça login para acessar a página inicial!",
                           );
                         }}
@@ -231,7 +226,6 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/my-orders"),
-                            "Acesso Restrito",
                             "Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se veste com personalidade.",
                           );
                         }}
@@ -244,13 +238,9 @@ export const Header = () => {
                         variant="ghost"
                         className="h-12 w-full justify-start px-4"
                         onClick={() => {
-                          requireAuth(
-                            () => {
-                              window.location.href = "/cart/identification";
-                            },
-                            "Acesso Restrito",
-                            "Faça login para acessar sua sacola!",
-                          );
+                          requireAuth(() => {
+                            window.location.href = "/cart/identification";
+                          }, "Faça login para acessar sua sacola!");
                         }}
                       >
                         <ShoppingBagIcon className="h-5 w-5" />
@@ -273,7 +263,6 @@ export const Header = () => {
                           requireAuth(
                             () =>
                               (window.location.href = "/category/camisetas"),
-                            "Acesso Restrito",
                             "Faça login para explorar nossas camisetas exclusivas!",
                           );
                         }}
@@ -288,7 +277,6 @@ export const Header = () => {
                             () =>
                               (window.location.href =
                                 "/category/bermuda-shorts"),
-                            "Acesso Restrito",
                             "Faça login para explorar bermudas e shorts!",
                           );
                         }}
@@ -301,7 +289,6 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/category/calcas"),
-                            "Acesso Restrito",
                             "Faça login para explorar nossas calças!",
                           );
                         }}
@@ -316,8 +303,7 @@ export const Header = () => {
                             () =>
                               (window.location.href =
                                 "/category/jaquetas-moletons"),
-                            "Acesso Restrito",
-                            "Faça login para explorar jaquetas e moletons!",
+                            "Faça login para explorar nossas jaquetas e moletons!",
                           );
                         }}
                       >
@@ -329,7 +315,6 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () => (window.location.href = "/category/tenis"),
-                            "Acesso Restrito",
                             "Faça login para explorar nossos tênis!",
                           );
                         }}
@@ -343,7 +328,6 @@ export const Header = () => {
                           requireAuth(
                             () =>
                               (window.location.href = "/category/acessorios"),
-                            "Acesso Restrito",
                             "Faça login para explorar nossos acessórios!",
                           );
                         }}
