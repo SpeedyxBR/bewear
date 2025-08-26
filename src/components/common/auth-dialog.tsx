@@ -30,13 +30,26 @@ export const AuthDialog = ({
         <DialogHeader className="space-y-4 text-center">
           {/* Logo da BEWEAR */}
           <div className="flex justify-center">
-            <Image
-              src="/logo.svg"
-              alt="BEWEAR"
-              width={120}
-              height={31}
-              className="h-8 w-auto"
-            />
+            <div className="flex items-center justify-center">
+              <Image
+                src="/logo.svg"
+                alt="BEWEAR"
+                width={120}
+                height={31}
+                className="h-8 w-auto"
+                priority
+                onError={(e) => {
+                  // Fallback para texto se a imagem falhar
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML =
+                      '<span class="text-2xl font-bold text-black">BEWEAR</span>';
+                  }
+                }}
+              />
+            </div>
           </div>
 
           <DialogTitle className="text-2xl font-bold">
