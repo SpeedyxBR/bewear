@@ -9,6 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 interface AuthDialogProps {
   open: boolean;
@@ -24,6 +26,16 @@ export const AuthDialog = ({
   onOpenChange,
   message,
 }: AuthDialogProps) => {
+  const handleSignInWithGoogle = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+      });
+    } catch (error) {
+      toast.error("Erro ao fazer login com Google. Tente novamente.");
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col gap-4 sm:max-w-[425px]">
@@ -62,7 +74,10 @@ export const AuthDialog = ({
         </DialogHeader>
 
         {/* Botão de login com Google */}
-        <Button className="flex items-center justify-center gap-3 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">
+        <Button
+          className="flex items-center justify-center gap-3 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+          onClick={handleSignInWithGoogle}
+        >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
