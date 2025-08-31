@@ -10,7 +10,7 @@ const Menu = async ({ isBorder = true }: MenuProps) => {
 
   return (
     <>
-      <div className={`mb-6 w-full ${isBorder && "border-b-2 py-3"}`}>
+      <div className={`mb-0 w-full ${isBorder && " border-white/30 py-3"}`}>
         <div className="container mx-auto mb-5 hidden md:block">
           <div className="space-y-6">
             <div className="flex justify-around px-5">
