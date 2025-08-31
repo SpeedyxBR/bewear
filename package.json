@@ -51,6 +51,7 @@
     "@types/pg": "^8.15.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.16",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
