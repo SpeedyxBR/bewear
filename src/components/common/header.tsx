@@ -123,7 +123,7 @@ export const Header = () => {
       </div>
 
       <Link href="/">
-        <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
+        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
       <div className="flex w-[250px] items-center justify-end gap-3">
@@ -278,7 +278,7 @@ export const Header = () => {
                               (window.location.href =
                                 "/category/bermuda-shorts"),
                             "Faça login para explorar bermudas e shorts!",
-                          );
+                          );n
                         }}
                       >
                         Bermuda & Shorts
@@ -288,7 +288,7 @@ export const Header = () => {
                         className="h-12 w-full justify-start px-4"
                         onClick={() => {
                           requireAuth(
-                            () => (window.location.href = "/category/calcas"),
+                            () => (window.location.href = "/category/calas"),
                             "Faça login para explorar nossas calças!",
                           );
                         }}
@@ -314,7 +314,7 @@ export const Header = () => {
                         className="h-12 w-full justify-start px-4"
                         onClick={() => {
                           requireAuth(
-                            () => (window.location.href = "/category/tenis"),
+                            () => (window.location.href = "/category/tnis"),
                             "Faça login para explorar nossos tênis!",
                           );
                         }}
@@ -327,7 +327,7 @@ export const Header = () => {
                         onClick={() => {
                           requireAuth(
                             () =>
-                              (window.location.href = "/category/acessorios"),
+                              (window.location.href = "/category/acessrios"),
                             "Faça login para explorar nossos acessórios!",
                           );
                         }}
@@ -343,7 +343,7 @@ export const Header = () => {
                       <div className="mt-auto py-6">
                         <Button
                           variant="ghost"
-                          className="h-12 w-full justify-between px-4 text-gray-600 hover:bg-gray-50 hover:text-gray-800"
+                          className="h-12 w-full justify-between px-6"
                           onClick={() => authClient.signOut()}
                         >
                           <span>Sair da conta</span>

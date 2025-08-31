@@ -30,4 +30,5 @@ export const auth = betterAuth({
   verification: {
     modelName: "verificationTable",
   },
+  secret: process.env.AUTH_SECRET,
 });
