@@ -1,0 +1,12 @@
+# Arquivos desnecessários para o deploy
+node_modules
+.git
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+README.md
+*.log
+.DS_Store
+.vscode
+.idea

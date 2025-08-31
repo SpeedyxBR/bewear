@@ -1,26 +1,18 @@
 {
+  "buildCommand": "npm run build:vercel",
+  "installCommand": "npm install",
+  "framework": "nextjs",
   "functions": {
-    "src/app/api/auth/[...all]/route.ts": {
-      "maxDuration": 30
+    "src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
     }
   },
-  "headers": [
-    {
-      "source": "/api/auth/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
+  "env": {
+    "NODE_OPTIONS": "--max-old-space-size=4096"
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=4096"
     }
-  ]
+  }
 }
