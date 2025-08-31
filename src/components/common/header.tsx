@@ -278,7 +278,7 @@ export const Header = () => {
                               (window.location.href =
                                 "/category/bermuda-shorts"),
                             "Faça login para explorar bermudas e shorts!",
-                          );n
+                          );
                         }}
                       >
                         Bermuda & Shorts
