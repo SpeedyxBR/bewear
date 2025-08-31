@@ -44,7 +44,7 @@ export const AuthDialog = ({
           <div className="flex justify-center">
             <div className="flex items-center justify-center">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="BEWEAR"
                 width={120}
                 height={31}
