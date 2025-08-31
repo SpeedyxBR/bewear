@@ -26,21 +26,6 @@ const nextConfig: NextConfig = {
       };
     }
 
-    // Otimizações para lightningcss
-    config.module.rules.push({
-      test: /\.css$/,
-      use: [
-        {
-          loader: "postcss-loader",
-          options: {
-            postcssOptions: {
-              plugins: ["@tailwindcss/postcss"],
-            },
-          },
-        },
-      ],
-    });
-
     return config;
   },
 };
