@@ -1,9 +1,13 @@
 "use client";
 
-import { MinusIcon, PlusIcon } from "lucide-react";
+import { MinusIcon, PlusIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { addProductToCart } from "@/actions/add-cart-product";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import AddToCartButton from "./add-to-cart-button";
 
@@ -13,6 +17,23 @@ interface ProductActionsProps {
 
 const ProductActions = ({ productVariantId }: ProductActionsProps) => {
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { mutate: buyNow, isPending: isBuyNowPending } = useMutation({
+    mutationKey: ["buyNow", productVariantId, quantity],
+    mutationFn: () =>
+      addProductToCart({
+        productVariantId,
+        quantity,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      toast.success("Produto adicionado ao carrinho.", { duration: 1000 });
+      // Redirecionar para a aba Identification
+      router.push("/cart/identification");
+    },
+  });
 
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
@@ -20,6 +41,10 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
+  };
+
+  const handleBuyNow = () => {
+    buyNow();
   };
 
   return (
@@ -46,7 +71,10 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
         <Button
           className="rounded-full py-6 text-lg leading-2 font-bold"
           size="lg"
+          disabled={isBuyNowPending}
+          onClick={handleBuyNow}
         >
+          {isBuyNowPending && <Loader2 className="animate-spin" />}
           Comprar agora
         </Button>
       </div>
