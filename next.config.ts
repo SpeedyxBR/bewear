@@ -12,22 +12,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Configurações para Tailwind CSS v4
-  experimental: {
-    optimizePackageImports: ["@tailwindcss/postcss", "lightningcss"],
-  },
-  webpack: (config, { isServer }) => {
-    // Configurações específicas para o webpack
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        path: false,
-      };
-    }
-
-    return config;
-  },
 };
 
 export default nextConfig;
