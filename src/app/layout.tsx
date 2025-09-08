@@ -37,7 +37,7 @@ export default function RootLayout({
           <CartSheetProvider>
             <Header />
             <Menu isBorder={true} />
-            <div className="container mx-auto md:min-h-[calc(100vh-302px)]">
+            <div className="w-full px-4 sm:px-6 lg:px-8 md:min-h-[calc(100vh-302px)]">
               {children}
             </div>
             <Footer />
