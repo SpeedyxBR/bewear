@@ -59,7 +59,7 @@ const FinishOrderButton = () => {
             alt="Success"
             width={300}
             height={300}
-            className="mx-auto"
+            className="w-full max-w-[300px] mx-auto"
           />
           <DialogTitle className="mt-4 text-2xl">Pedido efetuado!</DialogTitle>
           <DialogDescription className="font-medium">

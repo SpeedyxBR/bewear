@@ -26,7 +26,7 @@ const Home = async () => {
 
   return (
     <>
-      <div className="container mx-auto">
+  <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           <div className="px-5">
             <Image

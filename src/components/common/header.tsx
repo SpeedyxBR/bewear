@@ -50,7 +50,7 @@ export const Header = () => {
   // Renderiza um placeholder durante a hidratação
   if (!isMounted) {
     return (
-      <header className="container mx-auto flex items-center justify-between p-5">
+      <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5">
         <div className="w-[250px] px-5">
           <div className="flex items-center">
             <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
@@ -83,7 +83,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="container mx-auto flex items-center justify-between p-5">
+    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5">
       <div className="w-[250px] px-5">
         {session?.user ? (
           <>
