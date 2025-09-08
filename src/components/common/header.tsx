@@ -146,7 +146,7 @@ export const Header = () => {
                 <MenuIcon />
               </Button>
             </SheetTrigger>
-            <SheetContent className="h-full w-[300px] sm:w-[350px] md:w-[400px]">
+            <SheetContent className="h-full w-full sm:w-[350px] md:w-[400px] bg-background/100 dark:bg-background">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
