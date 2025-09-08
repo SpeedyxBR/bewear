@@ -13,7 +13,7 @@ const Menu = async ({ isBorder = true }: MenuProps) => {
       <div className={`mb-0 w-full ${isBorder && " border-white/30 py-3"}`}>
   <div className="w-full px-4 sm:px-6 lg:px-8 mb-5 hidden md:block">
           <div className="space-y-6">
-            <div className="flex justify-around px-5">
+            <div className="flex justify-around px-4 sm:px-6">
               <CategorySelector categories={categories} />
             </div>
           </div>

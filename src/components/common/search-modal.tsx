@@ -77,25 +77,25 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
       onClick={onClose}
     >
       <div
-        className="flex min-h-screen flex-col items-center justify-start pt-20"
+        className="flex min-h-screen flex-col items-center justify-start pt-20 box-border"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header do modal */}
-        <div className="flex w-full max-w-4xl items-center justify-between px-6">
+  <div className="flex w-full max-w-4xl items-center justify-between px-4 sm:px-6">
           <h2 className="text-4xl font-bold text-black">Buscar produtos</h2>
           <ButtonClose onClick={onClose} />
         </div>
 
         {/* Barra de busca centralizada */}
-        <div className="mt-8 w-full max-w-2xl px-6">
+  <div className="mt-8 w-full max-w-2xl px-4 sm:px-6">
           <form onSubmit={handleSearchSubmit}>
             <div className="relative">
-              <Input
+                <Input
                 type="text"
                 placeholder="Digite o que você procura . . ."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="h-14 rounded-full border-2 border-black/30 px-6 pr-16 text-lg text-black placeholder:text-black/60 focus:outline-none focus-visible:ring-[0px]"
+                className="h-14 rounded-full border-2 border-black/30 px-4 sm:px-6 pr-16 text-lg text-black placeholder:text-black/60 focus:outline-none focus-visible:ring-[0px]"
                 autoFocus
               />
               <Button
@@ -116,7 +116,7 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
         {/* Resultados da busca */}
         {searchTerm && (
-          <div className="container mt-8 w-full px-6">
+          <div className="mt-8 w-full px-4 sm:px-6">
             {error ? (
               <div className="py-8 text-center">
                 <p className="text-red-400">
@@ -130,7 +130,7 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               </div>
             ) : searchResults.length > 0 ? (
               <div className="space-y-4">
-                <h3 className="px-5 text-lg font-semibold text-black">
+                <h3 className="px-4 sm:px-6 text-lg font-semibold text-black">
                   {searchResults.length} resultado
                   {searchResults.length !== 1 ? "s" : ""} para "{searchTerm}"
                 </h3>

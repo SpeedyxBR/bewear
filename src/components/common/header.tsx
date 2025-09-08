@@ -48,16 +48,16 @@ export const Header = () => {
   }, []);
 
   // Renderiza um placeholder durante a hidratação
-  if (!isMounted) {
+    if (!isMounted) {
     return (
-      <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5">
-        <div className="w-[250px] px-5">
+    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5 box-border">
+      <div className="flex-1 min-w-0 md:w-[250px] md:px-5 px-2">
           <div className="flex items-center">
             <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
           </div>
         </div>
         <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
-        <div className="flex w-[250px] items-center justify-end gap-3">
+  <div className="flex-1 flex items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
         </div>
@@ -83,8 +83,8 @@ export const Header = () => {
   };
 
   return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5">
-      <div className="w-[250px] px-5">
+    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5 box-border">
+  <div className="flex-1 min-w-0 md:w-[250px] md:px-5 px-2">
         {session?.user ? (
           <>
             <div className="flex justify-between">
@@ -126,7 +126,7 @@ export const Header = () => {
         <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
-      <div className="flex w-[250px] items-center justify-end gap-3">
+  <div className="flex-1 flex items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
         <Button
           variant="link"
           className="hidden text-black md:block [&_svg:not([class*='size-'])]:size-auto"

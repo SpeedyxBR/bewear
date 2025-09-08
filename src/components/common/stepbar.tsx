@@ -114,17 +114,17 @@ const StepBar = ({ step }: StepBarProps) => {
   };
 
   return (
-    <div className={step === "STEP3" ? "w-full" : "w-3/5"}>
-      <div className="relative mt-6 flex flex-col items-start justify-between px-5 py-6">
-        <div className="relative inline-flex h-9 w-full items-center justify-start space-x-3.5">
+    <div className="w-full">
+      <div className="relative mt-6 flex flex-col md:flex-row items-start justify-between px-4 sm:px-6 py-6">
+        <div className="relative flex flex-col md:inline-flex md:h-9 w-full md:items-center md:justify-start md:space-x-3.5 gap-3">
           {/* ITEM1 - Sempre FULL-CHECK */}
-          <div className="relative flex h-9 w-[100px] items-center justify-start space-x-2">
+          <div className="relative flex h-9 w-full md:w-[100px] items-center justify-start space-x-2">
             <div
               className={`relative flex h-9 w-9 items-center justify-center rounded-full border-2 ${getItemClasses(1)}`}
             >
               {getItemContent(1)}
             </div>
-            <p className="h-[22px] w-14 text-base leading-[22.40px] font-medium text-[#656565]">
+            <p className="h-[22px] md:w-14 w-full truncate text-base leading-[22.40px] font-medium text-[#656565]">
               {getItemText(1)}
             </p>
           </div>
@@ -137,13 +137,13 @@ const StepBar = ({ step }: StepBarProps) => {
           </div>
 
           {/* ITEM2 - Varia conforme o step */}
-          <div className="relative flex h-9 w-[151px] items-center justify-start space-x-2">
+          <div className="relative flex h-9 w-full md:w-[151px] items-center justify-start space-x-2">
             <div
               className={`relative flex h-9 w-9 items-center justify-center rounded-full border-2 font-semibold ${getItemClasses(2)}`}
             >
               {getItemContent(2)}
             </div>
-            <p className="h-[22px] w-[107px] text-base leading-[22.40px] font-medium text-[#656565]">
+            <p className="h-[22px] md:w-[107px] w-full truncate text-base leading-[22.40px] font-medium text-[#656565]">
               {getItemText(2)}
             </p>
           </div>
@@ -156,13 +156,13 @@ const StepBar = ({ step }: StepBarProps) => {
           </div>
 
           {/* ITEM3 - Varia conforme o step */}
-          <div className="relative flex h-9 w-[140px] items-center justify-start space-x-2">
+          <div className="relative flex h-9 w-full md:w-[140px] items-center justify-start space-x-2">
             <div
               className={`relative flex h-9 w-9 items-center justify-center rounded-full border-2 font-semibold ${getItemClasses(3)}`}
             >
               {getItemContent(3)}
             </div>
-            <p className="h-[22px] w-24 text-base leading-[22.40px] font-medium text-[#656565]">
+            <p className="h-[22px] md:w-24 w-full truncate text-base leading-[22.40px] font-medium text-[#656565]">
               {getItemText(3)}
             </p>
           </div>

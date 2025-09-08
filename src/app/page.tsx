@@ -28,7 +28,7 @@ const Home = async () => {
     <>
   <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
-          <div className="px-5">
+          <div className="px-4 sm:px-6">
             <Image
               src="/banner-01-m.png"
               alt="Leve uma vida com estilo"
@@ -49,7 +49,7 @@ const Home = async () => {
           <Brands />
           <CarouselList products={newlyCreatedProducts} title="Mais Vendidos" />
 
-          <div className="block px-5 md:hidden">
+          <div className="block px-4 sm:px-6 md:hidden">
             <div className="rounded-3xl bg-[#F4EFFF] p-6">
               <div className="grid grid-cols-2 gap-3">
                 <CategorySelector categories={categories} />
@@ -57,7 +57,7 @@ const Home = async () => {
             </div>
           </div>
 
-          <div className="block px-5 md:hidden">
+          <div className="block px-4 sm:px-6 md:hidden">
             <Image
               src="/banner-02.png"
               alt="Leve uma vida com estilo"
@@ -68,7 +68,7 @@ const Home = async () => {
             />
           </div>
 
-          <div className="block px-5 md:hidden">
+          <div className="block px-4 sm:px-6 md:hidden">
             <ProductList
               products={newlyCreatedProducts}
               title="Novos produtos"
