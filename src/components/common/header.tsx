@@ -48,16 +48,16 @@ export const Header = () => {
   }, []);
 
   // Renderiza um placeholder durante a hidratação
-    if (!isMounted) {
+  if (!isMounted) {
     return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5 box-border">
-      <div className="flex-1 min-w-0 md:w-[250px] md:px-5 px-2">
+      <header className="box-border flex w-full items-center justify-between p-5 px-4 sm:px-6 lg:px-8">
+        <div className="min-w-0 flex-1 px-2 md:w-[250px] md:px-5">
           <div className="flex items-center">
             <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
           </div>
         </div>
         <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
-  <div className="flex-1 flex items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
+        <div className="flex flex-1 items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
         </div>
@@ -83,8 +83,9 @@ export const Header = () => {
   };
 
   return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between p-5 box-border">
-  <div className="flex-1 min-w-0 md:w-[250px] md:px-5 px-2">
+    <header className="box-border flex min-h-[80px] w-full items-center p-5 px-4 sm:px-6 lg:px-8">
+      {/* Seção Esquerda */}
+      <div className="flex min-w-0 items-center px-2 md:w-[250px] md:px-5">
         {session?.user ? (
           <>
             <div className="flex justify-between">
@@ -122,11 +123,21 @@ export const Header = () => {
         )}
       </div>
 
-      <Link href="/">
-        <Image src="/logo.png" alt="BEWEAR" width={100} height={26.14} />
-      </Link>
+      {/* Logo Centralizado */}
+      <div className="flex flex-1 items-center justify-center">
+        <Link href="/">
+          <Image
+            src="/logo.png"
+            alt="BEWEAR"
+            width={100}
+            height={26.14}
+            className="object-contain"
+          />
+        </Link>
+      </div>
 
-  <div className="flex-1 flex items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
+      {/* Seção Direita */}
+      <div className="flex items-center justify-end gap-3 md:w-[250px] md:px-5">
         <Button
           variant="link"
           className="hidden text-black md:block [&_svg:not([class*='size-'])]:size-auto"
@@ -146,7 +157,7 @@ export const Header = () => {
                 <MenuIcon />
               </Button>
             </SheetTrigger>
-            <SheetContent className="h-full w-full max-w-full sm:max-w-[350px] md:max-w-[400px] bg-white dark:bg-card">
+            <SheetContent className="h-full w-full max-w-full bg-white dark:bg-card sm:max-w-[350px] md:max-w-[400px]">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
@@ -170,7 +181,7 @@ export const Header = () => {
                           <h3 className="font-semibold">
                             {session?.user?.name}
                           </h3>
-                          <span className="text-muted-foreground block text-xs">
+                          <span className="block text-xs text-muted-foreground">
                             {session?.user?.email}
                           </span>
                         </div>
@@ -202,7 +213,7 @@ export const Header = () => {
 
                   {/* Navegação Principal */}
                   <div className="py-3">
-                    <h3 className="mb-2 px-4 text-sm font-semibold tracking-wide text-gray-600 uppercase">
+                    <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
                       Navegação
                     </h3>
                     <div className="space-y-1">
@@ -251,7 +262,7 @@ export const Header = () => {
 
                   {/* Categorias */}
                   <div className="py-3">
-                    <h3 className="mb-2 px-4 text-sm font-semibold tracking-wide text-gray-600 uppercase">
+                    <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
                       Categorias
                     </h3>
                     <div className="space-y-1">
