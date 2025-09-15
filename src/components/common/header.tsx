@@ -50,14 +50,21 @@ export const Header = () => {
   // Renderiza um placeholder durante a hidratação
   if (!isMounted) {
     return (
-      <header className="box-border flex w-full items-center justify-between p-5 px-4 sm:px-6 lg:px-8">
-        <div className="min-w-0 flex-1 px-2 md:w-[250px] md:px-5">
+      <header className="box-border flex min-h-[80px] w-full items-center p-5 px-4 sm:px-6 lg:px-8">
+        {/* Seção Esquerda - Mobile: oculta, Desktop: visível */}
+        <div className="hidden min-w-0 items-center px-2 md:flex md:w-[250px] md:px-5">
           <div className="flex items-center">
             <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
           </div>
         </div>
-        <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
-        <div className="flex flex-1 items-center justify-end gap-3 md:w-[250px] md:flex-none md:justify-end">
+
+        {/* Logo - Mobile: esquerda, Desktop: centralizado */}
+        <div className="flex flex-1 items-center md:justify-center">
+          <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
+        </div>
+
+        {/* Seção Direita */}
+        <div className="flex items-center justify-end gap-3 md:w-[250px] md:px-5">
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
           <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
         </div>
@@ -84,8 +91,8 @@ export const Header = () => {
 
   return (
     <header className="box-border flex min-h-[80px] w-full items-center p-5 px-4 sm:px-6 lg:px-8">
-      {/* Seção Esquerda */}
-      <div className="flex min-w-0 items-center px-2 md:w-[250px] md:px-5">
+      {/* Seção Esquerda - Mobile: oculta, Desktop: visível */}
+      <div className="hidden min-w-0 items-center px-2 md:flex md:w-[250px] md:px-5">
         {session?.user ? (
           <>
             <div className="flex justify-between">
@@ -123,8 +130,8 @@ export const Header = () => {
         )}
       </div>
 
-      {/* Logo Centralizado */}
-      <div className="flex flex-1 items-center justify-center">
+      {/* Logo - Mobile: esquerda, Desktop: centralizado */}
+      <div className="flex flex-1 items-center md:justify-center">
         <Link href="/">
           <Image
             src="/logo.png"
