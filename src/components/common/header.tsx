@@ -50,23 +50,29 @@ export const Header = () => {
   // Renderiza um placeholder durante a hidratação
   if (!isMounted) {
     return (
-      <header className="box-border flex min-h-[80px] w-full items-center p-5 px-4 sm:px-6 lg:px-8">
-        {/* Seção Esquerda - Mobile: oculta, Desktop: visível */}
-        <div className="hidden min-w-0 items-center px-2 md:flex md:w-[250px] md:px-5">
-          <div className="flex items-center">
-            <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
+      <header className="flex min-h-[80px] w-full items-center px-4 py-5 sm:px-6 lg:px-8">
+        {/* Mobile Placeholder */}
+        <div className="flex w-full items-center justify-between md:hidden">
+          <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
+          <div className="flex items-center gap-3">
+            <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
+            <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
           </div>
         </div>
 
-        {/* Logo - Mobile: esquerda, Desktop: centralizado */}
-        <div className="flex flex-1 items-center md:justify-center">
-          <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
-        </div>
-
-        {/* Seção Direita */}
-        <div className="flex items-center justify-end gap-3 md:w-[250px] md:px-5">
-          <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
-          <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
+        {/* Desktop Placeholder */}
+        <div className="hidden w-full items-center justify-between md:flex">
+          <div className="flex flex-1 items-center">
+            <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
+          </div>
+          <div className="flex flex-1 items-center justify-center">
+            <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
+          </div>
+          <div className="flex flex-1 items-center justify-end gap-3">
+            <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
+            <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
+            <div className="h-6 w-6 animate-pulse rounded bg-gray-200"></div>
+          </div>
         </div>
       </header>
     );
@@ -90,48 +96,10 @@ export const Header = () => {
   };
 
   return (
-    <header className="box-border flex min-h-[80px] w-full items-center p-5 px-4 sm:px-6 lg:px-8">
-      {/* Seção Esquerda - Mobile: oculta, Desktop: visível */}
-      <div className="hidden min-w-0 items-center px-2 md:flex md:w-[250px] md:px-5">
-        {session?.user ? (
-          <>
-            <div className="flex justify-between">
-              <div className="flex items-center">
-                <Button
-                  variant="link"
-                  size="icon"
-                  className="text-black [&_svg:not([class*='size-'])]:size-auto"
-                  onClick={() => authClient.signOut()}
-                >
-                  <UserIcon />
-                </Button>
-                <div>
-                  <h3 className="font-semibold">
-                    Olá, {session?.user?.name} !
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex items-center">
-            <Button
-              size="icon"
-              asChild
-              variant="link"
-              className="text-black [&_svg:not([class*='size-'])]:size-auto"
-            >
-              <Link href="/authentication">
-                <LogInIcon />
-              </Link>
-            </Button>
-            <h2 className="font-semibold">Olá. Faça seu login!</h2>
-          </div>
-        )}
-      </div>
-
-      {/* Logo - Mobile: esquerda, Desktop: centralizado */}
-      <div className="flex flex-1 items-center md:justify-center">
+    <header className="flex min-h-[80px] w-full items-center px-4 py-5 sm:px-6 lg:px-8">
+      {/* Mobile: Logo à esquerda + ícones à direita */}
+      <div className="flex w-full items-center justify-between md:hidden">
+        {/* Logo Mobile */}
         <Link href="/">
           <Image
             src="/logo.png"
@@ -141,23 +109,12 @@ export const Header = () => {
             className="object-contain"
           />
         </Link>
-      </div>
 
-      {/* Seção Direita */}
-      <div className="flex items-center justify-end gap-3 md:w-[250px] md:px-5">
-        <Button
-          variant="link"
-          className="hidden text-black md:block [&_svg:not([class*='size-'])]:size-auto"
-          onClick={() => setIsSearchModalOpen(true)}
-        >
-          <Search />
-        </Button>
-        <div className="separator hidden md:block">|</div>
-        <Cart />
-        <div className="separator block md:hidden">|</div>
-
-        {/* Menu Único - Funciona em Mobile e Desktop */}
-        {isMounted && (
+        {/* Ícones Mobile */}
+        <div className="flex items-center gap-3">
+          <Cart />
+          <div className="separator">|</div>
+          {/* Menu Mobile */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon">
@@ -168,10 +125,9 @@ export const Header = () => {
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
-
               <ScrollArea className="h-full w-full">
                 <div className="flex h-full min-h-0 flex-col overflow-y-auto pb-20">
-                  {/* Seção de Usuário */}
+                  {/* Seção de Usuário Mobile */}
                   <div className="py-4">
                     {session?.user ? (
                       <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-4">
@@ -218,7 +174,7 @@ export const Header = () => {
                     )}
                   </div>
 
-                  {/* Navegação Principal */}
+                  {/* Navegação Principal Mobile */}
                   <div className="py-3">
                     <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
                       Navegação
@@ -267,7 +223,7 @@ export const Header = () => {
                     </div>
                   </div>
 
-                  {/* Categorias */}
+                  {/* Categorias Mobile */}
                   <div className="py-3">
                     <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
                       Categorias
@@ -355,7 +311,7 @@ export const Header = () => {
                     </div>
                   </div>
 
-                  {/* Botão de Logout */}
+                  {/* Botão de Logout Mobile */}
                   {session && session.user && (
                     <>
                       <div className="mt-auto py-6">
@@ -374,7 +330,285 @@ export const Header = () => {
               </ScrollArea>
             </SheetContent>
           </Sheet>
-        )}
+        </div>
+      </div>
+
+      {/* Desktop: Layout completo */}
+      <div className="hidden w-full items-center justify-between md:flex">
+        {/* Seção Esquerda Desktop */}
+        <div className="flex flex-1 items-center">
+          {session?.user ? (
+            <div className="flex items-center gap-3">
+              <Button
+                variant="link"
+                size="icon"
+                className="text-black [&_svg:not([class*='size-'])]:size-auto"
+                onClick={() => authClient.signOut()}
+              >
+                <UserIcon />
+              </Button>
+              <h3 className="font-semibold">Olá, {session?.user?.name} !</h3>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Button
+                size="icon"
+                asChild
+                variant="link"
+                className="text-black [&_svg:not([class*='size-'])]:size-auto"
+              >
+                <Link href="/authentication">
+                  <LogInIcon />
+                </Link>
+              </Button>
+              <h2 className="font-semibold">Olá. Faça seu login!</h2>
+            </div>
+          )}
+        </div>
+
+        {/* Logo Desktop - Centralizado */}
+        <div className="flex flex-1 items-center justify-center">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="BEWEAR"
+              width={100}
+              height={26.14}
+              className="object-contain"
+            />
+          </Link>
+        </div>
+
+        {/* Seção Direita Desktop */}
+        <div className="flex flex-1 items-center justify-end gap-3">
+          <Button
+            variant="link"
+            className="text-black [&_svg:not([class*='size-'])]:size-auto"
+            onClick={() => setIsSearchModalOpen(true)}
+          >
+            <Search />
+          </Button>
+          <div className="separator">|</div>
+          <Cart />
+          <div className="separator">|</div>
+
+          {/* Menu Desktop */}
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon">
+                <MenuIcon />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="h-full w-full max-w-full bg-white dark:bg-card sm:max-w-[350px] md:max-w-[400px]">
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <ScrollArea className="h-full w-full">
+                <div className="flex h-full min-h-0 flex-col overflow-y-auto pb-20">
+                  {/* Seção de Usuário Desktop */}
+                  <div className="py-4">
+                    {session?.user ? (
+                      <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-4">
+                        <Avatar>
+                          <AvatarImage
+                            src={session?.user?.image as string | undefined}
+                          />
+                          <AvatarFallback>
+                            {session?.user?.name?.split(" ")[0]?.[0]}
+                            {session?.user?.name?.split(" ")[1]?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <h3 className="font-semibold">
+                            {session?.user?.name}
+                          </h3>
+                          <span className="block text-xs text-muted-foreground">
+                            {session?.user?.email}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="rounded-lg bg-gray-50 p-4">
+                        <div className="flex items-center justify-between gap-4">
+                          <h2 className="font-semibold text-gray-800">
+                            Olá. Faça o seu login!
+                          </h2>
+                          <Button
+                            asChild
+                            variant="default"
+                            size="sm"
+                            className="h-auto bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
+                          >
+                            <Link
+                              href="/authentication"
+                              className="flex items-center gap-2"
+                            >
+                              <span>Login</span>
+                              <ArrowRightIcon className="h-4 w-4" />
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Navegação Principal Desktop */}
+                  <div className="py-3">
+                    <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
+                      Navegação
+                    </h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () => (window.location.href = "/"),
+                            "Faça login para acessar a página inicial!",
+                          );
+                        }}
+                      >
+                        <HomeIcon className="h-5 w-5" />
+                        <span>Início</span>
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () => (window.location.href = "/my-orders"),
+                            "Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se veste com personalidade.",
+                          );
+                        }}
+                      >
+                        <TruckIcon className="h-5 w-5" />
+                        <span>Meus Pedidos</span>
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(() => {
+                            window.location.href = "/cart/identification";
+                          }, "Faça login para acessar sua sacola!");
+                        }}
+                      >
+                        <ShoppingBagIcon className="h-5 w-5" />
+                        <span>Sacola</span>
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Categorias Desktop */}
+                  <div className="py-3">
+                    <h3 className="mb-2 px-4 text-sm font-semibold uppercase tracking-wide text-gray-600">
+                      Categorias
+                    </h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        size="sm"
+                        onClick={() => {
+                          requireAuth(
+                            () =>
+                              (window.location.href = "/category/camisetas"),
+                            "Faça login para explorar nossas camisetas exclusivas!",
+                          );
+                        }}
+                      >
+                        Camisetas
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () =>
+                              (window.location.href =
+                                "/category/bermuda-shorts"),
+                            "Faça login para explorar bermudas e shorts!",
+                          );
+                        }}
+                      >
+                        Bermuda & Shorts
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () => (window.location.href = "/category/calas"),
+                            "Faça login para explorar nossas calças!",
+                          );
+                        }}
+                      >
+                        Calças
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () =>
+                              (window.location.href =
+                                "/category/jaquetas-moletons"),
+                            "Faça login para explorar nossas jaquetas e moletons!",
+                          );
+                        }}
+                      >
+                        Jaquetas & Moletons
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () => (window.location.href = "/category/tnis"),
+                            "Faça login para explorar nossos tênis!",
+                          );
+                        }}
+                      >
+                        Tênis
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full justify-start px-4"
+                        onClick={() => {
+                          requireAuth(
+                            () =>
+                              (window.location.href = "/category/acessrios"),
+                            "Faça login para explorar nossos acessórios!",
+                          );
+                        }}
+                      >
+                        Acessórios
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Botão de Logout Desktop */}
+                  {session && session.user && (
+                    <>
+                      <div className="mt-auto py-6">
+                        <Button
+                          variant="ghost"
+                          className="h-12 w-full justify-between px-6"
+                          onClick={() => authClient.signOut()}
+                        >
+                          <span>Sair da conta</span>
+                          <LogOutIcon className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
 
       <SearchModal
