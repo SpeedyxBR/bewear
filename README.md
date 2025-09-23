@@ -449,7 +449,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👨‍💻 Autor
 
-**Andrel** - [@seu-github](https://github.com/seu-github)
+**Andrel** - [@meu-github](https://github.com/SpeedyxBR)
 
 ---
 
