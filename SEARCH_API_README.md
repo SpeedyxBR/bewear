@@ -1,4 +1,4 @@
-# API de Busca de Produtos - BEWEAR
+# API de Busca de Produtos - BEWEAR v.2
 
 ## 🎯 **Visão Geral**
 
