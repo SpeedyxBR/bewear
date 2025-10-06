@@ -1,15 +1,26 @@
+import ProductList from "@/components/common/product-list";
+import { Button } from "@/components/ui/button";
+import { db } from "@/db";
+import {
+  productTable,
+  productVariantTable,
+  shippingAddressTable,
+} from "@/db/schema";
+import { formatCentsToBRL } from "@/helpers/money";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-
-import ProductList from "@/components/common/products-list";
-import { db } from "@/db";
-import { productTable, productVariantTable } from "@/db/schema";
-import { formatCentsToBRL } from "@/helpers/money";
-
-import ProductActions from "./components/product-actions";
 import VariantSelector from "./components/variant-selector";
-import CarouselList from "@/components/common/carousel-list";
+import AddToCartButton from "./components/add-to-cart-button";
+import ProductActions from "./components/product-actions";
+import { Suspense } from "react";
+import Loading from "./loading";
+import CategoryList from "@/components/common/category-list";
+import { Separator } from "@/components/ui/separator";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import Header from "@/components/common/header";
+import Footer from "@/components/common/footer";
 
 interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;
@@ -17,6 +28,7 @@ interface ProductVariantPageProps {
 
 const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   const { slug } = await params;
+
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
     with: {
@@ -30,62 +42,90 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   if (!productVariant) {
     return notFound();
   }
+
   const likelyProducts = await db.query.productTable.findMany({
     where: eq(productTable.categoryId, productVariant.product.categoryId),
     with: {
       variants: true,
     },
   });
+
+  const categories = await db.query.categoryTable.findMany();
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  let shippingAddresses: (typeof shippingAddressTable.$inferSelect)[] = [];
+  if (session?.user) {
+    shippingAddresses = await db.query.shippingAddressTable.findMany({
+      where: eq(shippingAddressTable.userId, session.user.id),
+    });
+  }
+
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-5">
-        <div className="col-span-3 p-4">
-          <div className="flex flex-col space-y-6">
-            <Image
-              src={productVariant.imageUrl}
-              alt={productVariant.name}
-              sizes="100vw"
-              height={0}
-              width={0}
-              className="h-auto w-full rounded-4xl object-cover"
-            />
-          </div>
-        </div>
+      <Header />
+      <CategoryList categories={categories} />
+      <Separator className="mb-5 max-sm:hidden" />
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col space-y-8 py-6">
+          <Suspense fallback={<Loading />}>
+            <div className="grid grid-cols-1 gap-6 min-lg:min-h-[650px] lg:grid-cols-2 lg:gap-12">
+              <div className="relative aspect-square w-full rounded-3xl min-lg:aspect-auto">
+                <Image
+                  src={productVariant.imageUrl}
+                  alt={productVariant.name}
+                  fill
+                  className="rounded-3xl object-cover"
+                />
+              </div>
 
-        <div className="col-span-2 p-4">
-          <div className="px-5">
-            {/* DESCRIÇÃO */}
-            <h2 className="text-4xl font-bold">
-              {productVariant.product.name}
-            </h2>
-            <h3 className="text-muted-foreground text-lg font-semibold">
-              {productVariant.name}
-            </h3>
-            <h3 className="py-3 text-xl font-bold">
-              {formatCentsToBRL(productVariant.priceInCents)}
-            </h3>
-            <div className="py-6">
-              <VariantSelector
-                selectedVariantSlug={productVariant.slug}
-                variants={productVariant.product.variants}
+              <div className="flex flex-col justify-start">
+                <div className="mb-6 flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-xl font-semibold max-sm:text-lg min-lg:text-2xl">
+                      {productVariant.product.name}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-[#656565]">
+                      {productVariant.product.description}
+                    </p>
+                  </div>
+                  <span className="text-xl font-semibold max-sm:text-lg">
+                    {formatCentsToBRL(productVariant.priceInCents)}
+                  </span>
+                </div>
+
+                <VariantSelector
+                  variants={productVariant.product.variants}
+                  selectedVariantSlug={productVariant.slug}
+                />
+
+                <div className="hidden min-sm:mt-6 min-sm:flex min-sm:flex-col min-sm:gap-6">
+                  <ProductActions
+                    productVariantId={productVariant.id}
+                    shippingAddresses={shippingAddresses}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden max-sm:mt-6 max-sm:flex max-sm:flex-col max-sm:gap-6">
+              <ProductActions
+                productVariantId={productVariant.id}
+                shippingAddresses={shippingAddresses}
               />
             </div>
-          </div>
 
-          <ProductActions productVariantId={productVariant.id} />
-
-          <div className="px-5 text-lg">
-            <p className="text-shadow-amber-600">
-              {productVariant.product.description}
-            </p>
-          </div>
+            <div className="mt-8 flex flex-col gap-6">
+              <div className="h-[1px] w-2/12 bg-[#00000025]"></div>
+              <ProductList products={likelyProducts} title="Você pode gostar" />
+            </div>
+          </Suspense>
         </div>
       </div>
-      <div className="mt-6 py-6">
-        <CarouselList
-          title="Você também pode gostar"
-          products={likelyProducts}
-        />
+      <div className="mt-12">
+        <Footer />
       </div>
     </>
   );

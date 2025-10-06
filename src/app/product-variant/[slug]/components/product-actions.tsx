@@ -1,58 +1,123 @@
 "use client";
 
-import { MinusIcon, PlusIcon, Loader2 } from "lucide-react";
+import {
+  MinusIcon,
+  PlusIcon,
+  Loader2,
+  MapPin,
+  AlertTriangle,
+} from "lucide-react";
 import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-
-import { Button } from "@/components/ui/button";
-import { addProductToCart } from "@/actions/add-cart-product";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { createCheckoutSession } from "@/actions/create-checkout-session";
+import { useCreateDirectOrder } from "@/hooks/mutations/use-create-direct-order";
+
 import AddToCartButton from "./add-to-cart-button";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { shippingAddressTable } from "@/db/schema";
 
 interface ProductActionsProps {
   productVariantId: string;
+  shippingAddresses: (typeof shippingAddressTable.$inferSelect)[];
 }
 
-const ProductActions = ({ productVariantId }: ProductActionsProps) => {
+const ProductActions = ({
+  productVariantId,
+  shippingAddresses,
+}: ProductActionsProps) => {
   const [quantity, setQuantity] = useState(1);
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const createDirectOrderMutation = useCreateDirectOrder();
 
-  const { mutate: buyNow, isPending: isBuyNowPending } = useMutation({
-    mutationKey: ["buyNow", productVariantId, quantity],
-    mutationFn: () =>
-      addProductToCart({
-        productVariantId,
-        quantity,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      toast.success("Produto adicionado ao carrinho.", { duration: 1000 });
-      // Redirecionar para a aba Identification
-      router.push("/cart/identification");
-    },
-  });
-
-  const handleDecrement = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
-  };
+  const hasShippingAddresses =
+    shippingAddresses && shippingAddresses.length > 0;
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
   };
 
-  const handleBuyNow = () => {
-    buyNow();
+  const handleDecrement = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handleAddAddress = () => {
+    router.push("/cart/identification");
+  };
+
+  const handleBuyNow = async () => {
+    if (!hasShippingAddresses) {
+      toast.error("Você precisa cadastrar um endereço de entrega primeiro.", {
+        action: {
+          label: "Adicionar endereço",
+          onClick: handleAddAddress,
+        },
+      });
+      return;
+    }
+
+    if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+      toast.error("Erro de configuração do sistema");
+      return;
+    }
+
+    try {
+      const { orderId } = await createDirectOrderMutation.mutateAsync({
+        productVariantId,
+        quantity,
+      });
+
+      const checkoutSession = await createCheckoutSession({
+        orderId,
+      });
+
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+      );
+
+      if (!stripe) {
+        toast.error("Erro ao carregar o sistema de pagamento");
+        return;
+      }
+
+      await stripe.redirectToCheckout({
+        sessionId: checkoutSession.id,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes("Shipping address not found")) {
+          toast.error(
+            "Endereço de entrega não encontrado. Por favor, cadastre um endereço primeiro.",
+            {
+              action: {
+                label: "Adicionar endereço",
+                onClick: handleAddAddress,
+              },
+            },
+          );
+        } else {
+          toast.error("Erro ao processar o pedido. Tente novamente.");
+        }
+      } else {
+        toast.error("Erro inesperado. Tente novamente.");
+      }
+    }
   };
 
   return (
     <>
-      <div className="mt-4 px-5">
-        <div className="mb-6 space-y-4">
-          <h3 className="text-xl font-semibold">Quantidade</h3>
-          <div className="flex w-[158px] items-center justify-between rounded-lg border px-5 py-1 text-xl font-semibold">
+      <div>
+        <div className="space-y-4">
+          <h3 className="font-medium">Quantidade</h3>
+          <div className="flex w-[100px] items-center justify-between rounded-lg border">
             <Button size="icon" variant="ghost" onClick={handleDecrement}>
               <MinusIcon />
             </Button>
@@ -63,20 +128,45 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
           </div>
         </div>
       </div>
-      <div className="grid flex-col gap-2 space-y-4 px-5 py-6 xl:grid-cols-2">
+      <div className="flex flex-col space-y-2">
         <AddToCartButton
           productVariantId={productVariantId}
           quantity={quantity}
         />
-        <Button
-          className="rounded-full py-6 text-lg leading-2 font-bold"
-          size="lg"
-          disabled={isBuyNowPending}
-          onClick={handleBuyNow}
-        >
-          {isBuyNowPending && <Loader2 className="animate-spin" />}
-          Comprar agora
-        </Button>
+
+        {hasShippingAddresses ? (
+          <Button
+            className="rounded-full"
+            size="lg"
+            onClick={handleBuyNow}
+            disabled={
+              createDirectOrderMutation.isPending || !hasShippingAddresses
+            }
+          >
+            {createDirectOrderMutation.isPending && (
+              <Loader2 className="animate-spulse mr-2 h-4 w-4" />
+            )}
+            {createDirectOrderMutation.isPending
+              ? "Processando..."
+              : "Comprar agora"}
+          </Button>
+        ) : (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button className="rounded-full" size="lg">
+                Comprar agora
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 border border-red-400 bg-red-50 shadow-none">
+              <div className="flex justify-between gap-3">
+                <AlertTriangle size={25} color="#f87171" />
+                <p className="text-sm text-red-400">
+                  Você precisa de um endereço para comprar agora.
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     </>
   );

@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-
+import OrderSteps from "@/app/cart/components/order-steps";
+import Header from "@/components/common/header";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,39 +10,45 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import StepBar from "@/components/common/stepbar";
+import Image from "next/image";
+import Link from "next/link";
 
-const CheckoutSuccessPage = () => {
+const SuccessPage = () => {
   return (
     <>
-      <StepBar step={"STEP3"} />
+      <Header />
+      <div className="px-5">
+        <OrderSteps hasIdentification hasPayment />
+      </div>
       <Dialog open={true} onOpenChange={() => {}}>
         <DialogContent className="text-center">
           <Image
-            src="/illustration.svg"
-            alt="Success"
-            width={300}
-            height={300}
-            className="w-full max-w-[300px] mx-auto"
+            src={"/illustration.svg"}
+            alt="Sucesso!"
+            width={250}
+            height={250}
+            className="mx-auto"
           />
-          <DialogTitle className="mt-4 text-2xl">Pedido efetuado!</DialogTitle>
+          <DialogTitle className="mt-6 text-2xl">Pedido efetuado!</DialogTitle>
           <DialogDescription className="font-medium">
             Seu pedido foi efetuado com sucesso. Você pode acompanhar o status
             na seção de “Meus Pedidos”.
           </DialogDescription>
 
           <DialogFooter>
-            <Button className="rounded-full" size="lg">
-              <Link href="/my-orders">Ver meus pedidos</Link>
-            </Button>
-            <Button
-              className="rounded-full"
-              variant="outline"
-              size="lg"
-              asChild
-            >
-              <Link href="/">Voltar para a loja</Link>
-            </Button>
+            <div className="flex w-full flex-col space-y-2">
+              <Button className="rounded-full" size="lg" asChild>
+                <Link href={"/my-orders"}>Ver meus pedidos</Link>
+              </Button>
+              <Button
+                className="rounded-full"
+                variant="outline"
+                size="lg"
+                asChild
+              >
+                <Link href={"/"}>Voltar para a loja</Link>
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -51,4 +56,4 @@ const CheckoutSuccessPage = () => {
   );
 };
 
-export default CheckoutSuccessPage;
+export default SuccessPage;

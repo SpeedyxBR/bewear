@@ -1,8 +1,0 @@
-{
-  "buildCommand": "npm run build:vercel",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "env": {
-    "NODE_OPTIONS": "--max-old-space-size=4096"
-  }
-}

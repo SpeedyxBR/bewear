@@ -25,7 +25,6 @@ export const getCart = async () => {
             },
           },
         },
-        orderBy: (cartItem, { asc }) => [asc(cartItem.createdAt)],
       },
     },
   });
@@ -40,7 +39,6 @@ export const getCart = async () => {
       ...newCart,
       items: [],
       totalPriceInCents: 0,
-      shippingAddress: null,
     };
   }
   return {

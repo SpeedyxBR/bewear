@@ -1,16 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* animations provided via plugin tailwindcss-animate */
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -65,7 +62,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
-  --ring: #5131e8;
+  --ring: oklch(0.606 0.25 292.717);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -73,12 +70,12 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: #5131e8;
+  --sidebar-primary: oklch(0.606 0.25 292.717);
   --sidebar-primary-foreground: oklch(0.969 0.016 293.756);
   --sidebar-accent: oklch(0.967 0.001 286.375);
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: #5131e8;
+  --sidebar-ring: oklch(0.606 0.25 292.717);
 }
 
 .dark {
@@ -88,7 +85,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.541 0.281 293.009);
+  --primary: #5131e8;
   --primary-foreground: oklch(0.969 0.016 293.756);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
@@ -116,193 +113,17 @@
 }
 
 @layer base {
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  /* Evita overflow horizontal inesperado em mobile */
-  html, body, #__next {
-    width: 100%;
-    overflow-x: hidden;
-  }
-
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }
-}
-
-/* Animações customizadas */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  button {
+    @apply cursor-pointer;
   }
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  20%,
-  53%,
-  80%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  40%,
-  43% {
-    transform: translate3d(0, -30px, 0);
-  }
-  70% {
-    transform: translate3d(0, -15px, 0);
-  }
-  90% {
-    transform: translate3d(0, -4px, 0);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-@keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
-}
-
-/* Classes de animação */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
-
-.animate-slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.2s ease-out;
-}
-
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-.animate-ping {
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-.animate-wiggle {
-  animation: wiggle 1s ease-in-out infinite;
-}
-
-/* Transições suaves */
-.transition-all {
-  transition: all 0.3s ease;
-}
-
-.transition-colors {
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    text-decoration-color 0.3s ease,
-    fill 0.3s ease,
-    stroke 0.3s ease;
-}
-
-.transition-opacity {
-  transition: opacity 0.3s ease;
-}
-
-.transition-transform {
-  transition: transform 0.3s ease;
-}
-
-/* Hover effects */
-.hover\:scale-105:hover {
-  transform: scale(1.05);
-}
-
-.hover\:shadow-lg:hover {
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.hover\:bg-gray-50:hover {
-  background-color: rgb(249 250 251);
-}
-
-.hover\:bg-purple-700:hover {
-  background-color: rgb(126 34 206);
-}
-
-.hover\:text-purple-700:hover {
-  color: rgb(126 34 206);
-}
-
-.hover\:underline:hover {
-  text-decoration: underline;
+* {
+  font-family: var(--font-poppins), sans-serif;
 }

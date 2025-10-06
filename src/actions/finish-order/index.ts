@@ -1,7 +1,6 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
 import { db } from "@/db";
@@ -54,7 +53,7 @@ export const finishOrder = async () => {
         zipCode: cart.shippingAddress.zipCode,
         country: cart.shippingAddress.country,
         phone: cart.shippingAddress.phone,
-        cpfOrCnpj: cart.shippingAddress.cpfOrCnpj,
+        cpf: cart.shippingAddress.cpf,
         city: cart.shippingAddress.city,
         complement: cart.shippingAddress.complement,
         neighborhood: cart.shippingAddress.neighborhood,

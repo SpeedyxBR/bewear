@@ -1,9 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import z from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,23 +18,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { getUseCartQueryKey } from "@/hooks/queries/use-cart";
 import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
 const formSchema = z
   .object({
-    name: z.string("Nome inválido").trim().min(1, "Nome é obrigatório"),
-    email: z.email("Email inválido"),
-    password: z.string("Senha Inválida!").min(8, "Senha inválida"),
-    passwordConfirmation: z.string("Senha Inválida").min(8, "Senha inválida"),
+    name: z.string("Nome inválido.").trim().min(1, "Nome é obrigatório."),
+    email: z.email("E-mail invalido. Tente novamente."),
+    password: z
+      .string("Senha inválida. Tente novamente.")
+      .min(8, "A senha precisa ter pelo menos 8 caracteres."),
+    passwordConfirmation: z
+      .string("Senha inválida.")
+      .min(8, "A senha precisa ter pelo menos 8 caracteres."),
   })
   .refine(
     (data) => {
       return data.password === data.passwordConfirmation;
     },
     {
-      error: "As senhas não coincidem",
+      error: "As senhas não coincidem..",
       path: ["passwordConfirmation"],
     },
   );
@@ -47,49 +54,61 @@ type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      passwordConfirmation: "",
+      name: "",
     },
   });
 
   async function onSubmit(values: FormValues) {
-    await authClient.signUp.email({
-      name: values.name, // required
-      email: values.email, // required
-      password: values.password, // required
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
+    setIsLoading(true);
+    try {
+      const { data, error } = await authClient.signUp.email({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        fetchOptions: {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: getUseCartQueryKey() });
+            router.push("/");
+            toast.success("Bem-vindo(a) ao BEWEAR!");
+            setIsLoading(false);
+          },
+          onError: (error) => {
+            setIsLoading(false);
+            if (error.error.code === "USER_ALREADY_EXISTS") {
+              toast.error("E-mail já cadastrado.");
+
+              form.setError("email", {
+                message: "E-mail já cadastrado.",
+              });
+            }
+
+            toast.error(error.error.message);
+          },
         },
-        onError: (error) => {
-          if (error.error.code === "USER_ALREADY_EXISTS") {
-            toast.error("E-mail já cadastrado.");
-            form.setError("email", {
-              message: "E-mail já cadastrado.",
-            });
-          }
-          toast.error(error.error.message);
-        },
-      },
-    });
+      });
+    } catch (error) {
+      setIsLoading(false);
+    }
   }
 
   return (
     <>
-      <Card className="w-full">
+      <Card>
         <CardHeader>
-          <CardTitle>Entrar</CardTitle>
-          <CardDescription>Faça login para continuar.</CardDescription>
+          <CardTitle>Criar conta</CardTitle>
+          <CardDescription>Crie uma conta para continuar</CardDescription>
         </CardHeader>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <CardContent className="grid w-full gap-6">
+            <CardContent className="grid gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -97,7 +116,11 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu nome" {...field} />
+                      <Input
+                        placeholder="Digite o seu nome"
+                        {...field}
+                        type="name"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,9 +131,13 @@ const SignUpForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu email" {...field} />
+                      <Input
+                        placeholder="Digite o seu email"
+                        {...field}
+                        type="email"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -124,9 +151,9 @@ const SignUpForm = () => {
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Digite sua senha"
-                        type="password"
+                        placeholder="Digite a sua senha"
                         {...field}
+                        type="password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -138,12 +165,12 @@ const SignUpForm = () => {
                 name="passwordConfirmation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirmar Senha</FormLabel>
+                    <FormLabel>Confirmar senha</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Confirme sua senha"
-                        type="password"
+                        placeholder="Digite a sua senha novamente"
                         {...field}
+                        type="password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -152,7 +179,10 @@ const SignUpForm = () => {
               />
             </CardContent>
             <CardFooter>
-              <Button type="submit">Entrar</Button>
+              <Button type="submit" disabled={isLoading} className="w-full">
+                {isLoading && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+                Criar conta
+              </Button>
             </CardFooter>
           </form>
         </Form>
