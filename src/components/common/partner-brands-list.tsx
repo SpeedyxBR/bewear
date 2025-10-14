@@ -16,28 +16,28 @@ const PartnerBrandsList = ({ title }: PartnerBrandsListProps) => {
       </h3>
       <Swiper
         className="mySwiper swiper-h"
-        spaceBetween={10}
+        spaceBetween={30}
         slidesPerView={3}
         breakpoints={{
           320: {
             slidesPerView: 3,
-            spaceBetween: 10,
+            spaceBetween: 20,
           },
           640: {
             slidesPerView: 4,
-            spaceBetween: 10,
+            spaceBetween: 25,
           },
           768: {
             slidesPerView: 5,
-            spaceBetween: 10,
+            spaceBetween: 30,
           },
           1000: {
             slidesPerView: 6,
-            spaceBetween: 10,
+            spaceBetween: 35,
           },
           1280: {
             slidesPerView: 7,
-            spaceBetween: 0,
+            spaceBetween: 40,
           },
         }}
       >
