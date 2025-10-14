@@ -1,6 +1,7 @@
 "use client";
 
 import FilterCheckbox from "./filter-checkbox";
+import ModernCategoryFilter from "@/components/common/modern-category-filter";
 import { Separator } from "@/components/ui/separator";
 import {
   Accordion,
@@ -29,8 +30,18 @@ const FilterContent = ({
   filters,
   onFilterChange,
 }: FilterContentProps) => {
+  const handleCategoryChange = (categoryName: string, checked: boolean) => {
+    onFilterChange("categories", categoryName, checked);
+  };
+
+  const handleClearAllCategories = () => {
+    filters.categories.forEach((category) => {
+      onFilterChange("categories", category, false);
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-4 max-sm:gap-0">
+    <div className="flex flex-col gap-6 max-sm:gap-0">
       <Accordion type="single" collapsible defaultValue="mark">
         <AccordionItem value="mark">
           <AccordionTrigger className="items-center p-0 pb-5 text-lg font-medium hover:no-underline max-sm:text-[1rem]">
@@ -51,27 +62,15 @@ const FilterContent = ({
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
       <Separator />
-      <Accordion type="single" collapsible defaultValue="item-1">
-        <AccordionItem value="category">
-          <AccordionTrigger className="items-center text-lg font-medium hover:no-underline max-sm:text-[1rem]">
-            Categorias
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4">
-            {categories?.map((category) => (
-              <FilterCheckbox
-                key={category.id}
-                id={category.id}
-                name={category.name}
-                selectedItems={filters.categories}
-                onItemChange={(itemName, checked) =>
-                  onFilterChange("categories", itemName, checked)
-                }
-              />
-            ))}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+
+      <ModernCategoryFilter
+        categories={categories}
+        selectedCategories={filters.categories}
+        onCategoryChange={handleCategoryChange}
+        onClearAll={handleClearAllCategories}
+      />
     </div>
   );
 };
