@@ -12,16 +12,23 @@ interface Product {
   slug: string;
   description: string;
   createdAt: Date;
-  mark?: {
+  categoryId: string;
+  markId: string | null;
+  mark: {
     id: string;
     name: string;
-  };
+    createdAt: Date;
+    imageUrl: string;
+  } | null;
   variants: Array<{
     id: string;
     name: string;
+    createdAt: Date;
+    slug: string;
+    imageUrl: string;
+    productId: string;
     color: string;
     priceInCents: number;
-    imageUrl: string;
   }>;
 }
 

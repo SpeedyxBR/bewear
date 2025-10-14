@@ -22,16 +22,24 @@ interface Product {
   name: string;
   slug: string;
   description: string;
-  mark?: {
+  createdAt: Date;
+  categoryId: string;
+  markId: string | null;
+  mark: {
     id: string;
     name: string;
-  };
+    createdAt: Date;
+    imageUrl: string;
+  } | null;
   variants: Array<{
     id: string;
     name: string;
+    createdAt: Date;
+    slug: string;
+    imageUrl: string;
+    productId: string;
     color: string;
     priceInCents: number;
-    imageUrl: string;
   }>;
 }
 
@@ -133,7 +141,7 @@ const CategoryFilters = ({
     priceRange[0] !== minPrice ||
     priceRange[1] !== maxPrice;
 
-  useMemo(() => {
+  useEffect(() => {
     onFilteredProducts(filteredProducts);
   }, [filteredProducts, onFilteredProducts]);
 
@@ -172,7 +180,7 @@ const CategoryFilters = ({
           <div className="space-y-3">
             <Slider
               value={priceRange}
-              onValueChange={setPriceRange}
+              onValueChange={(value) => setPriceRange([value[0], value[1]])}
               min={minPrice}
               max={maxPrice}
               step={1000}
