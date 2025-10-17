@@ -51,16 +51,18 @@ const Authentication = async () => {
               className="h-auto"
             />
             <p className="text-muted-foreground mt-5 max-w-2/3 text-center text-sm max-sm:max-w-[80%]">
-              Olá, seja bem-vindo! Faça login ou crie sua conta e faça parte de
-              nós!
+              Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se
+              veste com personalidade.
             </p>
           </div>
 
           <div className="w-full max-w-md">
             <Tabs defaultValue="sign-in" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="sign-in">Entrar</TabsTrigger>
-                <TabsTrigger value="sign-up">Criar conta</TabsTrigger>
+                <TabsTrigger value="sign-in">Fazer login</TabsTrigger>
+                <TabsTrigger value="sign-up">
+                  Entre ou crie sua conta
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="sign-in" className="mt-3">
                 <SignInForm />

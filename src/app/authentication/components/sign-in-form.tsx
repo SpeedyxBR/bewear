@@ -193,6 +193,15 @@ const SignInForm = () => {
                 )}
                 Entrar com Google
               </Button>
+              <Button
+                variant="ghost"
+                className="text-muted-foreground w-full text-sm"
+                onClick={() => router.push("/")}
+                type="button"
+                disabled={isLoading || isGoogleLoading}
+              >
+                Continuar sem login
+              </Button>
             </CardFooter>
           </form>
         </Form>
