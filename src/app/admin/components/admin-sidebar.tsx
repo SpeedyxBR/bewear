@@ -46,12 +46,12 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 bg-white shadow-lg">
+    <div className="flex h-screen w-64 flex-col bg-white shadow-lg">
       <div className="p-6">
         <h1 className="text-2xl font-bold text-gray-900">Painel Admin</h1>
       </div>
 
-      <nav className="mt-6">
+      <nav className="mt-6 flex-1">
         <div className="px-3">
           {navigation.map((item) => {
             const isActive = pathname === item.href;
@@ -74,7 +74,7 @@ export default function AdminSidebar() {
         </div>
       </nav>
 
-      <div className="absolute right-6 bottom-6 left-6">
+      <div className="p-6">
         <Button
           variant="outline"
           className="w-full"
