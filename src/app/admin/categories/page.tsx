@@ -4,7 +4,7 @@ import CreateCategoryButton from "./components/create-category-button";
 
 export default async function AdminCategoriesPage() {
   const result = await getCategories();
-  const categories = result.success ? result.data : [];
+  const categories = result.success && result.data ? result.data : [];
 
   return (
     <div className="space-y-6">

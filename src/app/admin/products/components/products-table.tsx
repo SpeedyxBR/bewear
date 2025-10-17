@@ -149,7 +149,7 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
                         <Link
-                          href={`/product-variant/${product.variants[0]?.slug}`}
+                          href={`/product-variant/${product.variants[0]?.id}`}
                         >
                           <Eye className="mr-2 h-4 w-4" />
                           Visualizar

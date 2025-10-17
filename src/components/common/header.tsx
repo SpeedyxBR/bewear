@@ -166,7 +166,7 @@ const Header = () => {
                           <MapPin /> Meus endereços
                         </Link>
                       </Button>
-                      {session?.user?.role === "admin" && (
+                      {(session?.user as any)?.role === "admin" && (
                         <Button
                           className="flex w-full items-center justify-start font-medium"
                           variant="ghost"
@@ -357,7 +357,7 @@ const Header = () => {
                         <MapPin color="#1a1a1a" /> Meus endereços
                       </Link>
                     </DropdownMenuItem>
-                    {session?.user?.role === "admin" && (
+                    {(session?.user as any)?.role === "admin" && (
                       <DropdownMenuItem>
                         <Link
                           href={"/admin"}

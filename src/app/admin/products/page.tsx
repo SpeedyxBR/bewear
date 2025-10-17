@@ -11,8 +11,11 @@ export default async function AdminProductsPage() {
     getMarks(),
   ]);
 
-  const categories = categoriesResult.success ? categoriesResult.data : [];
-  const marks = marksResult.success ? marksResult.data : [];
+  const categories =
+    categoriesResult.success && categoriesResult.data
+      ? categoriesResult.data
+      : [];
+  const marks = marksResult.success && marksResult.data ? marksResult.data : [];
 
   return (
     <div className="space-y-6">
