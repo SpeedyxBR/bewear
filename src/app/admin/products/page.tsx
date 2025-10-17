@@ -5,11 +5,14 @@ import ProductsTable from "./components/products-table";
 import CreateProductButton from "./components/create-product-button";
 
 export default async function AdminProductsPage() {
-  const [products, categories, marks] = await Promise.all([
+  const [products, categoriesResult, marksResult] = await Promise.all([
     getProducts(),
     getCategories(),
     getMarks(),
   ]);
+
+  const categories = categoriesResult.success ? categoriesResult.data : [];
+  const marks = marksResult.success ? marksResult.data : [];
 
   return (
     <div className="space-y-6">

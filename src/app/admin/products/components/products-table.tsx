@@ -101,9 +101,9 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                   <div className="grid grid-cols-1 gap-4 text-sm text-gray-600 md:grid-cols-2">
                     <div>
                       <p className="font-medium">Variantes</p>
-                      <p>{product.variants.length} variação(ões)</p>
+                      <p>{product.variants?.length || 0} variação(ões)</p>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {product.variants.map((variant) => (
+                        {product.variants?.map((variant) => (
                           <Badge
                             key={variant.id}
                             variant="outline"

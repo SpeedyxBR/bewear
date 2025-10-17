@@ -3,7 +3,8 @@ import CategoriesTable from "./components/categories-table";
 import CreateCategoryButton from "./components/create-category-button";
 
 export default async function AdminCategoriesPage() {
-  const categories = await getCategories();
+  const result = await getCategories();
+  const categories = result.success ? result.data : [];
 
   return (
     <div className="space-y-6">

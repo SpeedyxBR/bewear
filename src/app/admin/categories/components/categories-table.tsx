@@ -68,7 +68,7 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
                       {category.name}
                     </h3>
                     <Badge variant="outline">
-                      {category.products.length} produto(s)
+                      {category.products?.length || 0} produto(s)
                     </Badge>
                   </div>
 
