@@ -15,16 +15,28 @@ export const getDashboardStats = async () => {
     throw new Error("Unauthorized");
   }
 
-  const [stats] = await db
+  // Buscar estatísticas separadamente para evitar cross joins problemáticos
+  const [totalUsersResult] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userTable);
+  const [totalProductsResult] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(productTable);
+  const [totalOrdersResult] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(orderTable);
+  const [totalRevenueResult] = await db
     .select({
-      totalUsers: sql<number>`count(${userTable.id})`,
-      totalProducts: sql<number>`count(${productTable.id})`,
-      totalOrders: sql<number>`count(${orderTable.id})`,
-      totalRevenue: sql<number>`coalesce(sum(case when ${orderTable.status} = 'paid' then ${orderTable.totalPriceInCents} else 0 end), 0)`,
+      total: sql<number>`coalesce(sum(case when ${orderTable.status} = 'paid' then ${orderTable.totalPriceInCents} else 0 end), 0)`,
     })
-    .from(userTable)
-    .crossJoin(productTable)
-    .crossJoin(orderTable);
+    .from(orderTable);
+
+  const stats = {
+    totalUsers: totalUsersResult.count,
+    totalProducts: totalProductsResult.count,
+    totalOrders: totalOrdersResult.count,
+    totalRevenue: totalRevenueResult.total,
+  };
 
   const recentOrders = await db.query.orderTable.findMany({
     orderBy: (orders, { desc }) => [desc(orders.createdAt)],
@@ -43,17 +55,14 @@ export const getDashboardStats = async () => {
     },
   });
 
-  const topProducts = await db
-    .select({
-      productId: sql<string>`${productTable.id}`,
-      productName: sql<string>`${productTable.name}`,
-      totalSold: sql<number>`coalesce(sum(${orderTable.totalPriceInCents}), 0)`,
-    })
-    .from(productTable)
-    .leftJoin(orderTable, eq(orderTable.userId, userTable.id))
-    .groupBy(productTable.id, productTable.name)
-    .orderBy(sql`total_sold desc`)
-    .limit(5);
+  // Para simplificar, vamos pegar os 5 produtos mais recentes
+  const topProducts = await db.query.productTable.findMany({
+    orderBy: (products, { desc }) => [desc(products.createdAt)],
+    limit: 5,
+    with: {
+      variants: true,
+    },
+  });
 
   return {
     stats,

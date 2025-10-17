@@ -1,21 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./lib/auth";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin")) {
-    const session = await auth.api.getSession({
-      headers: request.headers,
-    });
+    // Verificar se há token de sessão
+    const sessionToken = request.cookies.get(
+      "better-auth.session_token",
+    )?.value;
 
-    if (!session?.user) {
+    if (!sessionToken) {
       return NextResponse.redirect(new URL("/authentication", request.url));
     }
 
-    if (session.user.role !== "admin") {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+    // Para o Edge Runtime, vamos confiar na verificação do layout do admin
+    // que tem acesso completo ao banco de dados
   }
 
   return NextResponse.next();
