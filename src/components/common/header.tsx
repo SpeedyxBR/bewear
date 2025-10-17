@@ -11,6 +11,7 @@ import {
   MapPin,
   MenuIcon,
   Search,
+  Settings,
   Star,
   Truck,
   User2,
@@ -165,6 +166,17 @@ const Header = () => {
                           <MapPin /> Meus endereços
                         </Link>
                       </Button>
+                      {session?.user?.role === "admin" && (
+                        <Button
+                          className="flex w-full items-center justify-start font-medium"
+                          variant="ghost"
+                          asChild
+                        >
+                          <Link href={"/admin"} onClick={closeSheet}>
+                            <Settings /> Painel Admin
+                          </Link>
+                        </Button>
+                      )}
                     </div>
                     <Separator />
                     <div className="my-5 space-y-1">
@@ -345,6 +357,16 @@ const Header = () => {
                         <MapPin color="#1a1a1a" /> Meus endereços
                       </Link>
                     </DropdownMenuItem>
+                    {session?.user?.role === "admin" && (
+                      <DropdownMenuItem>
+                        <Link
+                          href={"/admin"}
+                          className="flex w-full items-center gap-2"
+                        >
+                          <Settings color="#1a1a1a" /> Painel Admin
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
 
                     <DropdownMenuSeparator />
 
