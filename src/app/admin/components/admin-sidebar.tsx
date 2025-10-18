@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -42,23 +43,50 @@ const navigation = [
   },
 ];
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+  isMobile?: boolean;
+  onLinkClick?: () => void;
+}
+
+export default function AdminSidebar({
+  isMobile = false,
+  onLinkClick,
+}: AdminSidebarProps) {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleLinkClick = () => {
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  };
 
   return (
-    <div className="flex h-screen w-64 flex-col bg-white shadow-lg">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-gray-900">Painel Admin</h1>
-      </div>
+    <div
+      className={cn(
+        "flex flex-col bg-white shadow-lg",
+        isMobile ? "h-full" : "h-screen w-64",
+      )}
+    >
+      {!isMobile && (
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-gray-900">Painel Admin</h1>
+        </div>
+      )}
 
-      <nav className="mt-6 flex-1">
+      <nav className={cn("flex-1", isMobile ? "mt-0" : "mt-6")}>
         <div className="px-3">
           {navigation.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = isClient && pathname === item.href;
             return (
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={handleLinkClick}
                 className={cn(
                   "mb-1 flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
                   isActive

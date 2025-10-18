@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import AdminSidebar from "./components/admin-sidebar";
+import AdminMobileHeader from "./components/admin-mobile-header";
 
 export default async function AdminLayout({
   children,
@@ -18,9 +19,12 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar />
+      <div className="hidden lg:block">
+        <AdminSidebar />
+      </div>
       <div className="flex flex-1 flex-col">
-        <main className="flex-1 p-6">{children}</main>
+        <AdminMobileHeader />
+        <main className="flex-1 p-4 lg:p-6">{children}</main>
       </div>
     </div>
   );
