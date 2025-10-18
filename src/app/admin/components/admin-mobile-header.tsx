@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -28,14 +28,6 @@ export default function AdminMobileHeader() {
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between p-6">
               <h1 className="text-xl font-bold text-gray-900">Painel Admin</h1>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                aria-label="Fechar menu"
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </div>
             <div className="flex-1 overflow-y-auto">
               <AdminSidebar
