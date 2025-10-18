@@ -1,12 +1,13 @@
 "use server";
 
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { z } from "zod";
+
 import { db } from "@/db";
 import { categoryTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
 
 const updateCategorySchema = z.object({
   id: z.string().uuid(),

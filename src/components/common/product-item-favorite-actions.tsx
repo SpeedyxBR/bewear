@@ -1,19 +1,21 @@
 "use client";
 
-import { productTable, productVariantTable } from "@/db/schema";
-import { Button } from "../ui/button";
 import { EllipsisVertical, Heart, HeartOff, Trash2 } from "lucide-react";
+import { useMemo } from "react";
+
+import { productTable, productVariantTable } from "@/db/schema";
 import { useAddFavoriteProduct } from "@/hooks/mutations/use-add-favorite-product";
 import { useRemoveFavoriteProduct } from "@/hooks/mutations/use-remove-favorite-product";
+import { useFavorites } from "@/hooks/queries/use-favorites";
+import { authClient } from "@/lib/auth-client";
+
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useMemo } from "react";
-import { useFavorites } from "@/hooks/queries/use-favorites";
-import { authClient } from "@/lib/auth-client";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 interface ProductItemFavoriteActionsProps {

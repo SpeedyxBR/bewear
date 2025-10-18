@@ -1,11 +1,13 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { Input } from "../ui/input";
-import { useProducts } from "@/hooks/queries/use-products";
-import React, { useEffect, useRef, useState } from "react";
-import { formatCentsToBRL } from "@/helpers/money";
 import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+
+import { formatCentsToBRL } from "@/helpers/money";
+import { useProducts } from "@/hooks/queries/use-products";
+
+import { Input } from "../ui/input";
 
 interface SearchInputProps {
   isMobile?: boolean;

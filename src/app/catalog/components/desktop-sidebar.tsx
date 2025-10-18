@@ -1,6 +1,7 @@
 "use client";
 
 import { SlidersHorizontal } from "lucide-react";
+
 import FilterContent from "./filter-content";
 
 interface DesktopSidebarProps {

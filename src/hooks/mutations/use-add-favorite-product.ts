@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addFavoriteProduct } from "@/actions/add-favorite-product";
 import { toast } from "sonner";
+
+import { addFavoriteProduct } from "@/actions/add-favorite-product";
 
 export const addFavoriteProductMutationKey = () => ["add-favorite-product"];
 

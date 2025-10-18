@@ -1,6 +1,8 @@
 "use client";
 
+import { ArrowUpDown,ChevronDown } from "lucide-react";
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,7 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ArrowUpDown } from "lucide-react";
 
 interface Product {
   id: string;
@@ -70,7 +71,7 @@ const CategorySorting = ({
     setSortOption(option);
     setIsOpen(false);
 
-    let sortedProducts = [...products];
+    const sortedProducts = [...products];
 
     switch (option) {
       case "name-asc":

@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ContinueWithoutLoginButton from "@/components/ui/continue-without-login-button";
 import {
   Form,
   FormControl,
@@ -17,19 +26,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import GoogleButton from "@/components/ui/google-button";
-import ContinueWithoutLoginButton from "@/components/ui/continue-without-login-button";
+import { Input } from "@/components/ui/input";
 import { getUseCartQueryKey } from "@/hooks/queries/use-cart";
 import { authClient } from "@/lib/auth-client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { signUpSchema, type SignUpFormValues } from "@/lib/auth-schemas";
+import { type SignUpFormValues,signUpSchema } from "@/lib/auth-schemas";
 
 const SignUpForm = () => {
   const router = useRouter();

@@ -1,14 +1,16 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
+
 import {
-  createShippingAddressSchema,
   type CreateShippingAddressSchema,
+  createShippingAddressSchema,
 } from "./schema";
-import { revalidatePath } from "next/cache";
 
 export const createShippingAddress = async (
   data: CreateShippingAddressSchema,

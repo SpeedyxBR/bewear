@@ -1,12 +1,14 @@
 "use client";
 
-import { productTable, productVariantTable } from "@/db/schema";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-import ProductItem from "./product-item";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { productTable, productVariantTable } from "@/db/schema";
+
+import ProductItem from "./product-item";
 
 interface ProductListProps {
   title: string;

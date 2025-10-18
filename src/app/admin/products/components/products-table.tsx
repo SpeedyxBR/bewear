@@ -1,9 +1,16 @@
 "use client";
 
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { ChevronDown, Edit, Eye, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+import { deleteProduct } from "@/actions/admin/delete-product";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatCentsToBRL } from "@/helpers/money";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { ChevronDown, Edit, Trash2, Eye } from "lucide-react";
-import { deleteProduct } from "@/actions/admin/delete-product";
-import { toast } from "sonner";
-import Link from "next/link";
 
 interface ProductsTableProps {
   products: Array<{
@@ -34,6 +35,7 @@ interface ProductsTableProps {
     variants: Array<{
       id: string;
       name: string;
+      slug: string;
       color: string;
       priceInCents: number;
       imageUrl: string;

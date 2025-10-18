@@ -1,5 +1,6 @@
-import { db } from "@/db";
 import { sql } from "drizzle-orm";
+
+import { db } from "@/db";
 
 async function migrateUserRole() {
   console.log("🔄 Executando migração para adicionar coluna 'role'...");

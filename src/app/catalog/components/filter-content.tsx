@@ -1,14 +1,15 @@
 "use client";
 
-import FilterCheckbox from "./filter-checkbox";
 import ModernCategoryFilter from "@/components/common/modern-category-filter";
-import { Separator } from "@/components/ui/separator";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
+
+import FilterCheckbox from "./filter-checkbox";
 
 interface FilterContentProps {
   marks: any[];

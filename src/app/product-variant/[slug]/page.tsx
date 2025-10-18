@@ -1,5 +1,15 @@
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+
+import CategoryList from "@/components/common/category-list";
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import {
   productTable,
@@ -7,20 +17,12 @@ import {
   shippingAddressTable,
 } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
-import { eq } from "drizzle-orm";
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import VariantSelector from "./components/variant-selector";
+import { auth } from "@/lib/auth";
+
 import AddToCartButton from "./components/add-to-cart-button";
 import ProductActions from "./components/product-actions";
-import { Suspense } from "react";
+import VariantSelector from "./components/variant-selector";
 import Loading from "./loading";
-import CategoryList from "@/components/common/category-list";
-import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
 
 interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;

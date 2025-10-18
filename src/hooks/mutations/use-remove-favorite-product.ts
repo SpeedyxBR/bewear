@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFavoriteProduct } from "@/actions/remove-favorite-product";
 import { toast } from "sonner";
+
+import { removeFavoriteProduct } from "@/actions/remove-favorite-product";
 
 export const removeFavoriteProductMutationKey = () => [
   "remove-favorite-product",

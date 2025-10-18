@@ -1,4 +1,5 @@
 import { getAllOrders } from "@/actions/admin/get-all-orders";
+
 import OrdersTable from "./components/orders-table";
 
 export default async function AdminOrdersPage() {

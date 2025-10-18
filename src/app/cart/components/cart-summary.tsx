@@ -1,8 +1,9 @@
+import { Edit } from "lucide-react";
+import Image from "next/image";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatCentsToBRL } from "@/helpers/money";
-import Image from "next/image";
-import { Edit } from "lucide-react";
 
 interface CartSummaryProps {
   subtotalInCents: number;

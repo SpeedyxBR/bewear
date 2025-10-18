@@ -1,10 +1,12 @@
 "use client";
 
-import { useUserAddresses } from "@/hooks/queries/use-shipping-addresses";
-import { shippingAddressTable } from "@/db/schema";
-import AddressCardWrapper from "./address-card-wrapper";
 import Image from "next/image";
+
 import { EmptyState } from "@/components/common/empty-state";
+import { shippingAddressTable } from "@/db/schema";
+import { useUserAddresses } from "@/hooks/queries/use-shipping-addresses";
+
+import AddressCardWrapper from "./address-card-wrapper";
 
 interface AddressesClientProps {
   initialAddresses: (typeof shippingAddressTable.$inferSelect)[];

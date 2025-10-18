@@ -1,21 +1,22 @@
 "use client";
 
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { ChevronDown, Shield, User } from "lucide-react";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+
+import { updateUserRole } from "@/actions/admin/update-user-role";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { ChevronDown, Shield, User } from "lucide-react";
-import { updateUserRole } from "@/actions/admin/update-user-role";
-import { toast } from "sonner";
 
 interface UsersTableProps {
   users: Array<{

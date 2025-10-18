@@ -1,12 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
+import { z } from "zod";
+
+import { createCategory } from "@/actions/admin/create-category";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -15,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { createCategory } from "@/actions/admin/create-category";
+import { Input } from "@/components/ui/input";
 
 const createCategorySchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 import { cn } from "@/lib/utils";
+
 import { ProductItemFavoriteActions } from "./product-item-favorite-actions";
 
 interface ProductItemProps {

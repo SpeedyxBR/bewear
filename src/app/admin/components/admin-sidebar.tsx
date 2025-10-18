@@ -1,19 +1,20 @@
 "use client";
 
+import {
+  LayoutDashboard,
+  LogOut,
+  Package,
+  ShoppingBag,
+  Tag,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import {
-  LayoutDashboard,
-  Package,
-  Users,
-  ShoppingBag,
-  Tag,
-  LogOut,
-} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {

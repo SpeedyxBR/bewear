@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo,useState } from "react";
+
+import { Separator } from "@/components/ui/separator";
+
 import CategoryFilters from "./category-filters";
 import CategorySorting from "./category-sorting";
 import ProductItem from "./product-item";
-import { Separator } from "@/components/ui/separator";
 
 interface Product {
   id: string;

@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+
 import OrderSteps from "@/app/cart/components/order-steps";
 import Header from "@/components/common/header";
 import { Button } from "@/components/ui/button";
@@ -10,8 +13,6 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Image from "next/image";
-import Link from "next/link";
 
 const SuccessPage = () => {
   return (

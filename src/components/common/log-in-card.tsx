@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "../ui/button";
 import { LogIn } from "lucide-react";
-import GoogleButton from "../ui/google-button";
+import Link from "next/link";
+
+import { Button } from "../ui/button";
 import ContinueWithoutLoginButton from "../ui/continue-without-login-button";
+import GoogleButton from "../ui/google-button";
 
 interface LogInCardProps {
   onClick: () => void;

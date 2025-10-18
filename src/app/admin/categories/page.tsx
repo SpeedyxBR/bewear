@@ -1,4 +1,5 @@
 import { getCategories } from "@/actions/get-categories";
+
 import CategoriesTable from "./components/categories-table";
 import CreateCategoryButton from "./components/create-category-button";
 

@@ -1,9 +1,11 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
 import { Toaster } from "sonner";
-import Header from "@/components/common/header";
+
 import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
 import ReactQueryProvider from "@/providers/react-query";
 
 const poppins = Poppins({

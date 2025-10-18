@@ -1,11 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { z } from "zod";
+
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 const createProductSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),

@@ -1,10 +1,11 @@
 "use server";
 
+import { desc } from "drizzle-orm";
+import { headers } from "next/headers";
+
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { desc } from "drizzle-orm";
 
 export const getAllUsers = async () => {
   const session = await auth.api.getSession({

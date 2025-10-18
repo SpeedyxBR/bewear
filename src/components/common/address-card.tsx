@@ -1,13 +1,15 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { EllipsisVertical, Home } from "lucide-react";
+import { ReactNode } from "react";
+
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Button } from "../ui/button";
-import { ReactNode } from "react";
 
 interface AddressCardProps {
   id: string;

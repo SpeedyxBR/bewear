@@ -1,7 +1,8 @@
-import { db } from "@/db";
-import CatalogClient from "./components/catalog-client";
-import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+import { db } from "@/db";
+
+import CatalogClient from "./components/catalog-client";
 
 const CatalogPage = async () => {
   const marks = await db.query.markTable.findMany();

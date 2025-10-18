@@ -1,13 +1,13 @@
 import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 import { formatCentsToBRL } from "@/helpers/money";
-
-import { Button } from "../ui/button";
-import { toast } from "sonner";
-import { useRemoveProductFromCart } from "@/hooks/mutations/use-remove-product-from-cart";
 import { useDecreaseCartProductQuantity } from "@/hooks/mutations/use-decrease-cart-product-quantity";
 import { useIncrementCartProductQuantity } from "@/hooks/mutations/use-increment-cart-product-quantity";
+import { useRemoveProductFromCart } from "@/hooks/mutations/use-remove-product-from-cart";
+
+import { Button } from "../ui/button";
 
 interface CartItemProps {
   id: string;

@@ -3,12 +3,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { addProductToCart } from "@/actions/add-cart-product";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { authClient } from "@/lib/auth-client";
 import { getUseCartQueryKey } from "@/hooks/queries/use-cart";
+import { authClient } from "@/lib/auth-client";
 
 interface AddToCartButtonProps {
   productVariantId: string;

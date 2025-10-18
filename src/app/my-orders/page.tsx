@@ -2,13 +2,13 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
 import { db } from "@/db";
 import { orderTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import Orders from "./components/orders";
-import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
 
 const MyOrdersPage = async () => {
   const session = await auth.api.getSession({

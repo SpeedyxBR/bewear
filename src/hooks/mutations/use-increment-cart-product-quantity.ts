@@ -1,5 +1,7 @@
-import { incrementCartProductQuantity } from "@/actions/increment-cart-product-quantity";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { incrementCartProductQuantity } from "@/actions/increment-cart-product-quantity";
+
 import { getUseCartQueryKey } from "../queries/use-cart";
 
 export const getIncrementCartProductQuantityMutationKey = (

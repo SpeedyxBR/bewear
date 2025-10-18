@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { Filter, SlidersHorizontal,X } from "lucide-react";
+import { useEffect,useMemo, useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { X, Filter, SlidersHorizontal } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -16,6 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Slider } from "@/components/ui/slider";
 
 interface Product {
   id: string;

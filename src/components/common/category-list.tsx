@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import { categoryTable } from "@/db/schema";
+
 import { Button } from "../ui/button";
 
 type Category = typeof categoryTable.$inferSelect;

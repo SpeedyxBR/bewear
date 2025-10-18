@@ -1,14 +1,16 @@
+import { eq } from "drizzle-orm";
+import { Plus } from "lucide-react";
+import { headers } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import Header from "@/components/common/header";
+import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
+
 import { AddressesClient } from "./components/addresses-client";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Plus } from "lucide-react";
-import Header from "@/components/common/header";
-import { redirect } from "next/navigation";
 
 const MyAddressesPage = async () => {
   const session = await auth.api.getSession({

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
-import { authClient } from "@/lib/auth-client";
+
 import { getUseCartQueryKey } from "@/hooks/queries/use-cart";
+import { authClient } from "@/lib/auth-client";
 
 interface UseGoogleAuthOptions {
   onSuccess?: () => void;

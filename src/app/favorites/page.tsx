@@ -1,9 +1,11 @@
-import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { FavoritesClient } from "./components/favorites-client";
 import { redirect } from "next/navigation";
-import Header from "@/components/common/header";
+
 import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+import { auth } from "@/lib/auth";
+
+import { FavoritesClient } from "./components/favorites-client";
 
 const FavoritesPage = async () => {
   const session = await auth.api.getSession({

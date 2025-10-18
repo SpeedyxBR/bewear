@@ -1,10 +1,14 @@
 "use client";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { BoxIcon, Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 
+import { createCheckoutSession } from "@/actions/create-checkout-session";
+import { EmptyState } from "@/components/common/empty-state";
 import {
   Accordion,
   AccordionContent,
@@ -18,10 +22,6 @@ import { Separator } from "@/components/ui/separator";
 import { orderTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 import { useCart } from "@/hooks/queries/use-cart";
-import { BoxIcon, Loader2 } from "lucide-react";
-import { createCheckoutSession } from "@/actions/create-checkout-session";
-import { EmptyState } from "@/components/common/empty-state";
-import Link from "next/link";
 
 interface OrdersProps {
   orders: Array<{

@@ -1,11 +1,13 @@
 "use server";
 
+import { and,eq } from "drizzle-orm";
+import { headers } from "next/headers";
+
 import { db } from "@/db";
 import { favoritesTable, productTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+
 import { AddFavoriteProductSchema, addFavoriteProductSchema } from "./schema";
-import { eq, and } from "drizzle-orm";
 
 export const addFavoriteProduct = async (data: AddFavoriteProductSchema) => {
   addFavoriteProductSchema.parse(data);

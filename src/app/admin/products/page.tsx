@@ -1,8 +1,9 @@
-import { getProducts } from "@/actions/get-products";
 import { getCategories } from "@/actions/get-categories";
 import { getMarks } from "@/actions/get-marks";
-import ProductsTable from "./components/products-table";
+import { getProducts } from "@/actions/get-products";
+
 import CreateProductButton from "./components/create-product-button";
+import ProductsTable from "./components/products-table";
 
 export default async function AdminProductsPage() {
   const [products, categoriesResult, marksResult] = await Promise.all([

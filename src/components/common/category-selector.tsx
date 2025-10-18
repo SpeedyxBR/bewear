@@ -1,8 +1,10 @@
-import { categoryTable } from "@/db/schema";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
 import { Filter } from "lucide-react";
 import Link from "next/link";
+
+import { categoryTable } from "@/db/schema";
+
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 
 interface CategorySelectorProps {
   categories: (typeof categoryTable.$inferSelect)[];

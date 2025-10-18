@@ -1,9 +1,16 @@
 "use client";
 
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { ChevronDown,MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+
+import { updateOrderStatus } from "@/actions/admin/update-order-status";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatCentsToBRL } from "@/helpers/money";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { MoreHorizontal, ChevronDown } from "lucide-react";
-import { updateOrderStatus } from "@/actions/admin/update-order-status";
-import { toast } from "sonner";
-import Link from "next/link";
 
 interface OrdersTableProps {
   orders: Array<{

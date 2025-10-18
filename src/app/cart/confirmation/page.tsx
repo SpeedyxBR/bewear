@@ -1,18 +1,20 @@
-import { db } from "@/db";
-import { shippingAddressTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import CartSummary from "../components/cart-summary";
+import { Suspense } from "react";
+
+import Header from "@/components/common/header";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/db";
+import { shippingAddressTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
+
+import CartSummary from "../components/cart-summary";
+import OrderSteps from "../components/order-steps";
 import { formatAddress } from "../helpers/address";
 import FinishOrderButton from "./components/finish-order-button";
-import { Suspense } from "react";
 import Loading from "./loading";
-import OrderSteps from "../components/order-steps";
-import { Badge } from "@/components/ui/badge";
-import Header from "@/components/common/header";
 
 const ConfirmationPage = async () => {
   const session = await auth.api.getSession({

@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useEffect,useMemo, useState } from "react";
+
+import ProductItem from "@/components/common/product-item";
 import { Separator } from "@/components/ui/separator";
+
+import ActiveFilters from "./active-filters";
 import CatalogPagination from "./catalog-pagination";
 import DesktopSidebar from "./desktop-sidebar";
-import MobileFilterHeader from "./mobile-filter-header";
-import ActiveFilters from "./active-filters";
 import DesktopSorting from "./desktop-sorting";
-import ProductItem from "@/components/common/product-item";
+import MobileFilterHeader from "./mobile-filter-header";
 
 interface CatalogClientProps {
   marks: any[];

@@ -1,10 +1,11 @@
 "use server";
 
+import { eq, sql } from "drizzle-orm";
+import { headers } from "next/headers";
+
 import { db } from "@/db";
 import { orderTable, productTable, userTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { eq, sql } from "drizzle-orm";
 
 export const getDashboardStats = async () => {
   const session = await auth.api.getSession({

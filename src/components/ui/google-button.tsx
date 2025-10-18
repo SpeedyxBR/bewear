@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import GoogleIcon from "@/components/ui/google-icon";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
 

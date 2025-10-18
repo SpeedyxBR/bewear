@@ -1,12 +1,13 @@
 "use server";
 
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { z } from "zod";
+
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 const updateUserRoleSchema = z.object({
   userId: z.string(),

@@ -1,6 +1,7 @@
+import { eq } from "drizzle-orm";
+
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 async function createAdminUser() {
   console.log("🔐 Criando usuário administrador...");

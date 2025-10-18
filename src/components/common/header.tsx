@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   ChevronDown,
   ChevronUp,
@@ -17,23 +17,18 @@ import {
   User2,
   UserIcon,
 } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
+import { useState } from "react";
 import { toast } from "sonner";
-import { Cart } from "./cart";
-import { useQueryClient } from "@tanstack/react-query";
+
 import { getUseCartQueryKey } from "@/hooks/queries/use-cart";
-import { Separator } from "../ui/separator";
 import { useCategories } from "@/hooks/queries/use-categories";
+import { useFavorites } from "@/hooks/queries/use-favorites";
+import { authClient } from "@/lib/auth-client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,11 +37,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useFavorites } from "@/hooks/queries/use-favorites";
-import { Badge } from "../ui/badge";
 import { Input } from "../ui/input";
-import SearchInput from "./search-input";
+import { Separator } from "../ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import { Cart } from "./cart";
 import LogInCard from "./log-in-card";
+import SearchInput from "./search-input";
 
 const Header = () => {
   const { data: session } = authClient.useSession();

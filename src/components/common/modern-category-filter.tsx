@@ -1,9 +1,10 @@
 "use client";
 
+import { Filter,X } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { X, Filter } from "lucide-react";
 
 interface ModernCategoryFilterProps {
   categories: Array<{

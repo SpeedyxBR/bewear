@@ -1,13 +1,14 @@
 "use client";
 
-import { favoritesTable, productTable, productVariantTable } from "@/db/schema";
-import ProductItem from "@/components/common/product-item";
-import { useFavorites } from "@/hooks/queries/use-favorites";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+
 import { EmptyState } from "@/components/common/empty-state";
+import ProductItem from "@/components/common/product-item";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { favoritesTable, productTable, productVariantTable } from "@/db/schema";
+import { useFavorites } from "@/hooks/queries/use-favorites";
 
 type FavoriteWithProduct = typeof favoritesTable.$inferSelect & {
   product: typeof productTable.$inferSelect & {

@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useDeleteShippingAddress } from "@/hooks/mutations/use-delete-shipping-address";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { useDeleteShippingAddress } from "@/hooks/mutations/use-delete-shipping-address";
 
 interface DeleteButtonProps {
   addressId: string;

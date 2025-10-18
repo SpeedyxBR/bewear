@@ -1,29 +1,29 @@
 "use client";
 
+import { loadStripe } from "@stripe/stripe-js";
 import {
-  MinusIcon,
-  PlusIcon,
+  AlertTriangle,
   Loader2,
   MapPin,
-  AlertTriangle,
+  MinusIcon,
+  PlusIcon,
 } from "lucide-react";
-import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { createCheckoutSession } from "@/actions/create-checkout-session";
-import { useCreateDirectOrder } from "@/hooks/mutations/use-create-direct-order";
-
-import AddToCartButton from "./add-to-cart-button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { shippingAddressTable } from "@/db/schema";
+import { useCreateDirectOrder } from "@/hooks/mutations/use-create-direct-order";
+
+import AddToCartButton from "./add-to-cart-button";
 
 interface ProductActionsProps {
   productVariantId: string;

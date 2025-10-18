@@ -1,13 +1,15 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignInForm from "./components/sign-in-form";
-import SignUpForm from "./components/sign-up-form";
-import Header from "@/components/common/header";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
+
+import Header from "@/components/common/header";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { authClient } from "@/lib/auth-client";
+
+import SignInForm from "./components/sign-in-form";
+import SignUpForm from "./components/sign-up-form";
 
 const Authentication = async () => {
   const session = await auth.api.getSession({

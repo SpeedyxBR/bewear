@@ -1,6 +1,14 @@
-import { ShoppingBasketIcon, Loader2 } from "lucide-react";
+import { Loader2,ShoppingBasketIcon } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { formatCentsToBRL } from "@/helpers/money";
+import { useCart } from "@/hooks/queries/use-cart";
+import { useFavorites } from "@/hooks/queries/use-favorites";
+import { authClient } from "@/lib/auth-client";
+
+import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import {
@@ -11,14 +19,8 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import CartItem from "./cart-item";
-import { authClient } from "@/lib/auth-client";
-import Link from "next/link";
-import { useState } from "react";
-import LogInCard from "./log-in-card";
-import { useCart } from "@/hooks/queries/use-cart";
-import { Badge } from "../ui/badge";
-import { useFavorites } from "@/hooks/queries/use-favorites";
 import { EmptyState } from "./empty-state";
+import LogInCard from "./log-in-card";
 
 export const Cart = () => {
   const [cardUserLogin, setCardUserLogin] = useState(false);

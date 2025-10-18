@@ -1,12 +1,14 @@
-import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { categoryTable, productTable } from "@/db/schema";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import Loading from "./loading";
-import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
+
 import CategoryClient from "@/components/common/category-client";
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+import { db } from "@/db";
+import { categoryTable, productTable } from "@/db/schema";
+
+import Loading from "./loading";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;

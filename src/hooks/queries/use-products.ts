@@ -1,5 +1,6 @@
-import { getProducts } from "@/actions/get-products";
 import { useQuery } from "@tanstack/react-query";
+
+import { getProducts } from "@/actions/get-products";
 
 export const productsQueryKey = () => ["products"];
 

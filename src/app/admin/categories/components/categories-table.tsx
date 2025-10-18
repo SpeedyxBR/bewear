@@ -1,20 +1,21 @@
 "use client";
 
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { ChevronDown, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+import { deleteCategory } from "@/actions/admin/delete-category";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { ChevronDown, Edit, Trash2 } from "lucide-react";
-import { deleteCategory } from "@/actions/admin/delete-category";
-import { toast } from "sonner";
 
 interface CategoriesTableProps {
   categories: Array<{
