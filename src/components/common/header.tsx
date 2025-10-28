@@ -17,6 +17,7 @@ import {
   User2,
   UserIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -49,7 +50,6 @@ import {
 import { Cart } from "./cart";
 import LogInCard from "./log-in-card";
 import SearchInput from "./search-input";
-import Image from "next/image";
 
 const Header = () => {
   const { data: session } = authClient.useSession();
@@ -70,7 +70,7 @@ const Header = () => {
         <Link href="/">
           <Image src="/logo.svg" alt="BEWEAR" width={100} height={50} className="h-auto" priority={true} />
         </Link>
-
+        
         <SearchInput isMobile={false} />
 
         {/* MENU MOBILE */}
