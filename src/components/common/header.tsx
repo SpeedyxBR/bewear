@@ -68,9 +68,9 @@ const Header = () => {
     <>
       <header className="flex h-auto w-full items-center justify-between p-5 min-sm:px-10">
         <Link href="/">
-          <Image src="/logo.svg" alt="BEWEAR" width={100} height={50} className="h-auto" priority={true} />
+          <Image src="/logo.png" alt="BEWEAR" width={100} height={50} className="h-auto" priority={true} />
         </Link>
-        
+
         <SearchInput isMobile={false} />
 
         {/* MENU MOBILE */}
