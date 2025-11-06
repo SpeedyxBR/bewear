@@ -69,7 +69,7 @@ const Header = () => {
         <Link href="/">
           <img
             src="/logo.svg"
-            alt="BEWEAR"
+            alt="BEWEAR" 
             width={100}
             height={50}
             className="h-auto"
