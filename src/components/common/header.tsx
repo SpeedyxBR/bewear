@@ -17,6 +17,7 @@ import {
   User2,
   UserIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -67,12 +68,13 @@ const Header = () => {
     <>
       <header className="flex h-auto w-full items-center justify-between p-5 min-sm:px-10">
         <Link href="/">
-          <img
+          <Image
             src="/logo.svg"
-            alt="BEWEAR" 
+            alt="BEWEAR"
             width={100}
             height={50}
             className="h-auto"
+            priority={true}
           />
         </Link>
 

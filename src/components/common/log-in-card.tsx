@@ -1,6 +1,7 @@
 "use client";
 
 import { LogIn } from "lucide-react";
+import Image from "next/image"; 
 import Link from "next/link";
 
 import { Button } from "../ui/button";
@@ -17,7 +18,8 @@ const LogInCard = ({ onClick }: LogInCardProps) => {
       <div className="absolute inset-0 bg-black/60" onClick={onClick} />
       <div className="bg-background relative z-10 w-[400px] rounded-2xl p-6 shadow-xl">
         <div className="flex flex-col items-center gap-4 px-3 py-4">
-          <img
+          {/* Agora o componente Image será reconhecido */}
+          <Image
             src="/logo.svg"
             alt="BEWEAR"
             width={120}
