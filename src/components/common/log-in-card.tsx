@@ -24,7 +24,14 @@ const LogInCard = ({ onClick }: LogInCardProps) => {
             alt="BEWEAR"
             width={120}
             height={40}
-            className="h-auto"
+            className="h-auto dark:hidden"
+          />
+          <Image
+            src="/logo-branca.svg"
+            alt="BEWEAR"
+            width={120}
+            height={40}
+            className="hidden h-auto dark:block"
           />
           <p className="text-lg font-semibold">Entre ou crie sua conta</p>
           <div className="h-[1px] w-[50px] bg-gray-300"></div>

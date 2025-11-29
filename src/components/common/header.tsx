@@ -73,7 +73,15 @@ const Header = () => {
             alt="BEWEAR"
             width={100}
             height={50}
-            className="h-auto"
+            className="h-auto dark:hidden"
+            priority={true}
+          />
+          <Image
+            src="/logo-branca.svg"
+            alt="BEWEAR"
+            width={100}
+            height={50}
+            className="hidden h-auto dark:block"
             priority={true}
           />
         </Link>

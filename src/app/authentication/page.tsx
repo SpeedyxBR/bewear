@@ -50,7 +50,14 @@ const Authentication = async () => {
               alt="logo"
               width={120}
               height={40}
-              className="h-auto"
+              className="h-auto dark:hidden"
+            />
+            <Image
+              src="/logo-branca.svg"
+              alt="logo"
+              width={120}
+              height={40}
+              className="hidden h-auto dark:block"
             />
             <p className="text-muted-foreground mt-5 max-w-2/3 text-center text-sm max-sm:max-w-[80%]">
               Conecte-se à BEWEAR e aproveite uma experiência feita pra quem se
